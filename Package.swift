@@ -18,7 +18,8 @@ let package = Package(
             name: "SwiftTileJSON"),
         .testTarget(
             name: "SwiftTileJSONTests",
-            dependencies: ["SwiftTileJSON"]
+            dependencies: ["SwiftTileJSON"],
+            resources: [.copy("Resources/")]
         ),
     ]
 )
