@@ -159,7 +159,6 @@ extension TileJSON {
         // Decode OPTIONAL fields, ignoring if invalid.
         vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
         attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
-        bounds = try? container.decodeIfPresent([Double].self, forKey: .bounds)
         center = try? container.decodeIfPresent([Double].self, forKey: .center)
         data = try? container.decodeIfPresent([String].self, forKey: .data)
         description = try? container.decodeIfPresent(String.self, forKey: .description)
@@ -173,34 +172,18 @@ extension TileJSON {
         template = try? container.decodeIfPresent(String.self, forKey: .template)
         version = try? container.decodeIfPresent(String.self, forKey: .version)
         
-        // Validate bounds if present
-        if let bounds = bounds {
-            guard bounds.count == 4 else {
-                throw DecodingError.dataCorrupted(
-                    DecodingError.Context(
-                        codingPath: [CodingKeys.bounds],
-                        debugDescription: "TileJSON requires bounds to have exactly 4 elements [left, bottom, right, top]."
-                    )
-                )
-            }
-            
-            let minLon = bounds[0]
-            let minLat = bounds[1]
-            let maxLon = bounds[2]
-            let maxLat = bounds[3]
-            
-            // Validate longitude and latitude are in valid ranges
-            guard minLon >= -180 && minLon <= 180 && 
-                  maxLon >= -180 && maxLon <= 180 &&
-                  minLat >= -90 && minLat <= 90 &&
-                  maxLat >= -90 && maxLat <= 90 else {
-                throw DecodingError.dataCorrupted(
-                    DecodingError.Context(
-                        codingPath: [CodingKeys.bounds],
-                        debugDescription: "TileJSON requires bounds longitude in [-180, 180] and latitude in [-90, 90]."
-                    )
-                )
-            }
+        // Decode OPTIONAL bounds. `nil` if invalid.
+        if
+            let potentialBounds = try? container.decodeIfPresent([Double].self, forKey: .bounds),
+            potentialBounds.count == 4 &&
+            (-180...180).contains(potentialBounds[0]) &&
+            (-90...90).contains(potentialBounds[1]) &&
+            (-180...180).contains(potentialBounds[2]) &&
+            (-90...90).contains(potentialBounds[3])
+        {
+            bounds = potentialBounds
+        } else {
+            bounds = nil
         }
         
         // Validate center if present

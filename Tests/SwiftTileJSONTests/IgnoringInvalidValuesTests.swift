@@ -51,6 +51,40 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.version == nil)
     }
     
+    @Test func invalidTileJSONBoundsCountIgnored() {
+        let invalidTileJSONBounds: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "bounds": [1.1, 1.2, 1.3]
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONBounds, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.bounds == nil)
+    }
+    
+    @Test(
+        arguments: [
+            [-181, 0, 0, 0],
+            [0, -91, 0, 0],
+            [0, 0, 181, 0],
+            [0, 0, 0, 91]
+        ]
+    )
+    func invalidTileJSONBoundsRangeIgnored(bounds: [Double]) {
+        let invalidTileJSONBounds: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "bounds": bounds
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONBounds, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.bounds == nil)
+    }
+    
     @Test func invalidVectorLayersOptionalValuesIgnored() {
         let invalidVectorLayer: [String: Any] = [
             "id": "id",
