@@ -105,12 +105,28 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         }
         
         // MARK: Coding Keys
+        
         internal enum CodingKeys: String, CodingKey {
             case id
             case fields
             case description
             case minZoom = "minzoom"
             case maxZoom = "maxzoom"
+        }
+        
+        // MARK: Custom Decoding
+        
+        public init(from decoder: any Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            // Decode REQUIRED fields.
+            self.id = try container.decode(String.self, forKey: TileJSON.VectorLayer.CodingKeys.id)
+            self.fields = try container.decode([String : String].self, forKey: TileJSON.VectorLayer.CodingKeys.fields)
+            
+            // Decode OPTIONAL fields, ignoring if invalid.
+            self.description = try? container.decodeIfPresent(String.self, forKey: TileJSON.VectorLayer.CodingKeys.description)
+            self.minZoom = try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.minZoom)
+            self.maxZoom = try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.maxZoom)
         }
     }
     
@@ -139,7 +155,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     public init(
         tilejson: String = "3.0.0",
         tiles: [String],
-        vectorLayers: [TileJSON.VectorLayer]? = nil,
+        vectorLayers: [VectorLayer]? = nil,
         attribution: String? = nil,
         bounds: [Double]? = nil,
         center: [Double]? = nil,
@@ -151,7 +167,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         maxZoom: Int? = nil,
         minZoom: Int? = nil,
         name: String? = nil,
-        scheme: TileJSON.TileScheme? = nil,
+        scheme: TileScheme? = nil,
         template: String? = nil,
         version: String? = nil
     ) {
@@ -182,7 +198,7 @@ extension TileJSON {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        // Decode REQUIRED fields
+        // Decode REQUIRED fields.
         tileJSONVersion = try container.decode(String.self, forKey: .tileJSONVersion)
         tiles = try container.decode([String].self, forKey: .tiles)
         
@@ -207,22 +223,22 @@ extension TileJSON {
             )
         }
         
-        // Decode OPTIONAL fields
-        vectorLayers = try container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
-        attribution = try container.decodeIfPresent(String.self, forKey: .attribution)
-        bounds = try container.decodeIfPresent([Double].self, forKey: .bounds)
-        center = try container.decodeIfPresent([Double].self, forKey: .center)
-        data = try container.decodeIfPresent([String].self, forKey: .data)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
-        fillzoom = try container.decodeIfPresent(Int.self, forKey: .fillzoom)
-        grids = try container.decodeIfPresent([String].self, forKey: .grids)
-        legend = try container.decodeIfPresent(String.self, forKey: .legend)
-        maxZoom = try container.decodeIfPresent(Int.self, forKey: .maxZoom)
-        minZoom = try container.decodeIfPresent(Int.self, forKey: .minZoom)
-        name = try container.decodeIfPresent(String.self, forKey: .name)
-        scheme = try container.decodeIfPresent(TileScheme.self, forKey: .scheme)
-        template = try container.decodeIfPresent(String.self, forKey: .template)
-        version = try container.decodeIfPresent(String.self, forKey: .version)
+        // Decode OPTIONAL fields, ignoring if invalid.
+        vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
+        attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
+        bounds = try? container.decodeIfPresent([Double].self, forKey: .bounds)
+        center = try? container.decodeIfPresent([Double].self, forKey: .center)
+        data = try? container.decodeIfPresent([String].self, forKey: .data)
+        description = try? container.decodeIfPresent(String.self, forKey: .description)
+        fillzoom = try? container.decodeIfPresent(Int.self, forKey: .fillzoom)
+        grids = try? container.decodeIfPresent([String].self, forKey: .grids)
+        legend = try? container.decodeIfPresent(String.self, forKey: .legend)
+        maxZoom = try? container.decodeIfPresent(Int.self, forKey: .maxZoom)
+        minZoom = try? container.decodeIfPresent(Int.self, forKey: .minZoom)
+        name = try? container.decodeIfPresent(String.self, forKey: .name)
+        scheme = try? container.decodeIfPresent(TileScheme.self, forKey: .scheme)
+        template = try? container.decodeIfPresent(String.self, forKey: .template)
+        version = try? container.decodeIfPresent(String.self, forKey: .version)
         
         // Validate bounds if present
         if let bounds = bounds {
