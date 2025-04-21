@@ -200,6 +200,17 @@ extension TileJSON {
         tilejson = try container.decode(String.self, forKey: .tilejson)
         tiles = try container.decode([String].self, forKey: .tiles)
         
+        // Validate compatible TileJSON version
+        if TileJSON.isValid(tileJsonVersion: tilejson) == false {
+            throw DecodingError.typeMismatch(
+                String.self,
+                DecodingError.Context(
+                    codingPath: [CodingKeys.tilejson],
+                    debugDescription: "Only TileJSON v3.x.x is supported"
+                )
+            )
+        }
+        
         // Validate tiles array is not empty (REQUIRED by spec)
         guard !tiles.isEmpty else {
             throw DecodingError.dataCorrupted(
@@ -344,6 +355,20 @@ extension TileJSON {
                 )
             }
         }
+    }
+    
+    private static func isValid(tileJsonVersion: String) -> Bool {
+        let versionParts = tileJsonVersion.split(separator: ".")
+        
+        if versionParts.count < 1 {
+            return false
+        }
+        
+        if let majorVersion = Int(versionParts[0]), majorVersion == 3 {
+            return true
+        }
+        
+        return false
     }
 }
 
