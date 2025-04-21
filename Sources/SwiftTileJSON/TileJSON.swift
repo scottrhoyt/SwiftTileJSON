@@ -89,6 +89,21 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         
         /// OPTIONAL. The highest zoom level whose tiles this layer appears in.
         public let maxzoom: Int?
+        
+        /// Initialize a new `VectorLayer`
+        /// - Parameters:
+        ///   - id: The layer id
+        ///   - fields: The fields available in the layer and their descriptions
+        ///   - description: A description of the layer. Default `nil`.
+        ///   - minzoom: The minimum zoom of the layer. Default `nil`.
+        ///   - maxzoom: The maximum zoom of the layer. Default `nil`.
+        public init(id: String, fields: [String : String], description: String? = nil, minzoom: Int? = nil, maxzoom: Int? = nil) {
+            self.id = id
+            self.fields = fields
+            self.description = description
+            self.minzoom = minzoom
+            self.maxzoom = maxzoom
+        }
     }
     
     // MARK: - CodingKeys
