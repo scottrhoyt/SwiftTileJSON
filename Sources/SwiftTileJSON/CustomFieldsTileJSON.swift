@@ -26,7 +26,7 @@ public struct CustomFieldsTileJSON: TileJSONFields, Codable {
     
     // MARK: TileJSONFields
     
-    public var tilejson: String { tileJSON.tilejson } // TODO: Rename tilejson to tileJsonVersion
+    public var tileJSONVersion: String { tileJSON.tileJSONVersion }
     public var tiles: [String] { tileJSON.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
     public var attribution: String? { tileJSON.attribution }

@@ -25,7 +25,7 @@ struct OSMExampleTests {
     @Test func osmExampleDecodesFieldsCorrectly() {
         let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: TestData.fromFile("osm")!)
         
-        #expect(tileJSON.tilejson == "3.0.0")
+        #expect(tileJSON.tileJSONVersion == "3.0.0")
         #expect(tileJSON.name == "OpenStreetMap")
         #expect(tileJSON.description == "A free editable map of the whole world.")
         #expect(tileJSON.version == "1.0.0")
@@ -116,7 +116,7 @@ struct ValidationTests {
         let jsonData = try! JSONSerialization.data(withJSONObject: validTileJSON)
         let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
         
-        #expect(tileJSON.tilejson == versionString)
+        #expect(tileJSON.tileJSONVersion == versionString)
     }
     
     @Test(

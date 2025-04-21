@@ -11,8 +11,8 @@ import Foundation
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
 public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     // TODO: Verify that this is TileJSON 3.0, fix initializer
-    /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object.
-    public let tilejson: String
+    /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
+    public let tileJSONVersion: String
     
     /// REQUIRED. An array of tile endpoints. Must contain at least one endpoint.
     public let tiles: [String]
@@ -118,7 +118,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     // MARK: - CodingKeys
     
     internal enum CodingKeys: String, CodingKey, CaseIterable {
-        case tilejson
+        case tileJSONVersion = "tilejson"
         case tiles
         case vectorLayers = "vector_layers"
         case attribution
@@ -193,7 +193,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         template: String? = nil,
         version: String? = nil
     ) {
-        self.tilejson = tilejson
+        self.tileJSONVersion = tilejson
         self.tiles = tiles
         self.vectorLayers = vectorLayers
         self.attribution = attribution
@@ -221,15 +221,15 @@ extension TileJSON {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         // Decode REQUIRED fields
-        tilejson = try container.decode(String.self, forKey: .tilejson)
+        tileJSONVersion = try container.decode(String.self, forKey: .tileJSONVersion)
         tiles = try container.decode([String].self, forKey: .tiles)
         
         // Validate compatible TileJSON version
-        if TileJSON.isValid(tileJsonVersion: tilejson) == false {
+        if TileJSON.isValid(tileJsonVersion: tileJSONVersion) == false {
             throw DecodingError.typeMismatch(
                 String.self,
                 DecodingError.Context(
-                    codingPath: [CodingKeys.tilejson],
+                    codingPath: [CodingKeys.tileJSONVersion],
                     debugDescription: "Only TileJSON v3.x.x is supported"
                 )
             )
