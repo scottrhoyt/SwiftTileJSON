@@ -1,3 +1,10 @@
+//
+//  TileJSON.swift
+//  TileJSON
+//
+//  Created by Scott Hoyt on 4/20/25.
+//
+
 import Foundation
 
 /// A Swift model for TileJSON 3.0.0 specification.
