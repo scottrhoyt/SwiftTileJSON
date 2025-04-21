@@ -37,7 +37,7 @@ struct OSMExampleTests {
             "https://c.tile.custom-osm-tiles.org/{z}/{x}/{y}.mvt"
         ])
         #expect(tileJSON.minzoom == 0)
-        #expect(tileJSON.maxzoom == 18)
+        #expect(tileJSON.maxZoom == 18)
         #expect(tileJSON.bounds == [-180, -85, 180, 85])
         #expect(tileJSON.fillzoom == 6)
         #expect(tileJSON.vectorLayers == [

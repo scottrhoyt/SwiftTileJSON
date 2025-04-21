@@ -46,10 +46,10 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     /// OPTIONAL. Contains a legend to be displayed with the map.
     public let legend: String?
     
-    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minzoom <= maxzoom <= 30.
-    public let maxzoom: Int?
+    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minzoom <= maxZoom <= 30.
+    public let maxZoom: Int?
     
-    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minzoom <= maxzoom <= 30.
+    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minzoom <= maxZoom <= 30.
     public let minzoom: Int?
     
     /// OPTIONAL. A name describing the tileset.
@@ -120,7 +120,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         case fillzoom
         case grids
         case legend
-        case maxzoom
+        case maxZoom = "maxzoom"
         case minzoom
         case name
         case scheme
@@ -137,7 +137,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     
     /// The effective maximum zoom level with default applied if not specified.
     var effectiveMaxzoom: Int {
-        return maxzoom ?? 30
+        return maxZoom ?? 30
     }
     
     /// The effective minimum zoom level with default applied if not specified.
@@ -177,7 +177,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         fillzoom: Int? = nil,
         grids: [String]? = nil,
         legend: String? = nil,
-        maxzoom: Int? = nil,
+        maxZoom: Int? = nil,
         minzoom: Int? = nil,
         name: String? = nil,
         scheme: TileJSON.TileScheme? = nil,
@@ -195,7 +195,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         self.fillzoom = fillzoom
         self.grids = grids
         self.legend = legend
-        self.maxzoom = maxzoom
+        self.maxZoom = maxZoom
         self.minzoom = minzoom
         self.name = name
         self.scheme = scheme
@@ -246,7 +246,7 @@ extension TileJSON {
         fillzoom = try container.decodeIfPresent(Int.self, forKey: .fillzoom)
         grids = try container.decodeIfPresent([String].self, forKey: .grids)
         legend = try container.decodeIfPresent(String.self, forKey: .legend)
-        maxzoom = try container.decodeIfPresent(Int.self, forKey: .maxzoom)
+        maxZoom = try container.decodeIfPresent(Int.self, forKey: .maxZoom)
         minzoom = try container.decodeIfPresent(Int.self, forKey: .minzoom)
         name = try container.decodeIfPresent(String.self, forKey: .name)
         scheme = try container.decodeIfPresent(TileScheme.self, forKey: .scheme)
@@ -328,13 +328,13 @@ extension TileJSON {
                 }
             }
             
-            // If minzoom and maxzoom are specified, validate zoom is within range
-            if let minzoom = minzoom, let maxzoom = maxzoom {
-                guard zoom >= Double(minzoom) && zoom <= Double(maxzoom) else {
+            // If minzoom and maxZoom are specified, validate zoom is within range
+            if let minzoom = minzoom, let maxZoom = maxZoom {
+                guard zoom >= Double(minzoom) && zoom <= Double(maxZoom) else {
                     throw DecodingError.dataCorrupted(
                         DecodingError.Context(
-                            codingPath: [CodingKeys.center, CodingKeys.minzoom, CodingKeys.maxzoom],
-                            debugDescription: "TileJSON requires center zoom to be between minzoom and maxzoom."
+                            codingPath: [CodingKeys.center, CodingKeys.minzoom, CodingKeys.maxZoom],
+                            debugDescription: "TileJSON requires center zoom to be between minzoom and maxZoom."
                         )
                     )
                 }
@@ -342,12 +342,12 @@ extension TileJSON {
         }
         
         // Validate zoom levels if present
-        if let minzoom = minzoom, let maxzoom = maxzoom {
-            guard minzoom >= 0 && maxzoom >= 0 && minzoom <= maxzoom && maxzoom <= 30 else {
+        if let minzoom = minzoom, let maxZoom = maxZoom {
+            guard minzoom >= 0 && maxZoom >= 0 && minzoom <= maxZoom && maxZoom <= 30 else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
-                        codingPath: [CodingKeys.minzoom, CodingKeys.maxzoom],
-                        debugDescription: "TileJSON requires 0 <= minzoom <= maxzoom <= 30."
+                        codingPath: [CodingKeys.minzoom, CodingKeys.maxZoom],
+                        debugDescription: "TileJSON requires 0 <= minzoom <= maxZoom <= 30."
                     )
                 )
             }
@@ -360,12 +360,12 @@ extension TileJSON {
                     )
                 )
             }
-        } else if let maxzoom = maxzoom {
-            guard maxzoom >= 0 && maxzoom <= 30 else {
+        } else if let maxZoom = maxZoom {
+            guard maxZoom >= 0 && maxZoom <= 30 else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
-                        codingPath: [CodingKeys.maxzoom],
-                        debugDescription: "TileJSON requires maxzoom in range [0, 30]."
+                        codingPath: [CodingKeys.maxZoom],
+                        debugDescription: "TileJSON requires maxZoom in range [0, 30]."
                     )
                 )
             }
