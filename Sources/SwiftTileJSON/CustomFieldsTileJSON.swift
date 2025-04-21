@@ -8,7 +8,7 @@
 import Foundation
 
 /// A wrapper for handling arbitrary fields in a TileJSON object
-public struct CustomFieldsTileJSON: Codable {
+public struct CustomFieldsTileJSON: TileJSONFields, Codable {
     /// The underlying `TileJSON` object
     public let tileJSON: TileJSON
     
@@ -23,6 +23,26 @@ public struct CustomFieldsTileJSON: Codable {
         self.tileJSON = tileJSON
         self.customFields = customFields
     }
+    
+    // MARK: TileJSONFields
+    
+    public var tilejson: String { tileJSON.tilejson } // TODO: Rename tilejson to tileJsonVersion
+    public var tiles: [String] { tileJSON.tiles }
+    public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
+    public var attribution: String? { tileJSON.attribution }
+    public var bounds: [Double]? { tileJSON.bounds }
+    public var center: [Double]? { tileJSON.center }
+    public var data: [String]? { tileJSON.data }
+    public var description: String? {tileJSON.description }
+    public var fillzoom: Int? { tileJSON.fillzoom }
+    public var grids: [String]? { tileJSON.grids }
+    public var legend: String? { tileJSON.legend }
+    public var maxzoom: Int? { tileJSON.maxzoom }
+    public var minzoom: Int? { tileJSON.minzoom }
+    public var name: String? { tileJSON.name }
+    public var scheme: TileJSON.TileScheme? { tileJSON.scheme }
+    public var template: String? { tileJSON.template }
+    public var version: String? { tileJSON.version }
     
     // MARK: Decoding
     
