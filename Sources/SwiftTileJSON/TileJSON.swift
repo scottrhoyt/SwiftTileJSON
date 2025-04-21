@@ -306,27 +306,3 @@ extension TileJSON {
         return false
     }
 }
-
-// MARK: - Utilities
-
-extension TileJSON {
-    /// Creates a JSONDecoder configured for TileJSON
-    static func createDecoder() -> JSONDecoder {
-        let decoder = JSONDecoder()
-        return decoder
-    }
-    
-    /// Decode a TileJSON object from JSON data
-    static func decode(from data: Data) throws -> TileJSON {
-        let decoder = createDecoder()
-        return try decoder.decode(TileJSON.self, from: data)
-    }
-    
-    /// Decode a TileJSON object from a JSON string
-    static func decode(from jsonString: String) throws -> TileJSON? {
-        guard let data = jsonString.data(using: .utf8) else {
-            return nil
-        }
-        return try decode(from: data)
-    }
-}
