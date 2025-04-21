@@ -10,7 +10,7 @@ import Testing
 @testable import SwiftTileJSON
 
 struct IgnoringInvalidValuesTests {
-    @Test func invalidOptionalValuesIgnored() {
+    @Test func invalidTileJSONOptionalValuesIgnored() {
         let invalidTileJSON: [String: Any] = [
             "tilejson": "3.0.0",
             "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
@@ -49,5 +49,22 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.scheme == nil)
         #expect(tileJSON.template == nil)
         #expect(tileJSON.version == nil)
+    }
+    
+    @Test func invalidVectorLayersOptionalValuesIgnored() {
+        let invalidVectorLayer: [String: Any] = [
+            "id": "id",
+            "fields": ["key": "value"],
+            "description": -1,
+            "maxzoom": "invalid",
+            "minzoom": "invalid",
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidVectorLayer, options: [])
+        let vectorLayer = try! JSONDecoder().decode(TileJSON.VectorLayer.self, from: jsonData)
+        
+        #expect(vectorLayer.description == nil)
+        #expect(vectorLayer.minZoom == nil)
+        #expect(vectorLayer.maxZoom == nil)
     }
 }
