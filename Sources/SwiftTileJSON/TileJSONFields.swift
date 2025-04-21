@@ -44,10 +44,10 @@ public protocol TileJSONFields {
     /// OPTIONAL. Contains a legend to be displayed with the map.
     var legend: String? { get }
     
-    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minZoom <= maxZoom <= 30.
+    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minZoom <= maxZoom <= 30. `maxzoom` in the spec.
     var maxZoom: Int? { get }
     
-    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minZoom <= maxZoom <= 30.
+    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minZoom <= maxZoom <= 30. `minzoom` in the spec.
     var minZoom: Int? { get }
     
     /// OPTIONAL. A name describing the tileset.

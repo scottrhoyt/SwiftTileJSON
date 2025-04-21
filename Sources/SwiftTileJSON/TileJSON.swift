@@ -10,7 +10,6 @@ import Foundation
 /// A Swift model for TileJSON 3.0.0 specification.
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
 public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
-    // TODO: Verify that this is TileJSON 3.0, fix initializer
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
     public let tileJSONVersion: String
     
@@ -46,10 +45,10 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     /// OPTIONAL. Contains a legend to be displayed with the map.
     public let legend: String?
     
-    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minZoom <= maxZoom <= 30.
+    /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minZoom <= maxZoom <= 30. `maxzoom` in the spec.
     public let maxZoom: Int?
     
-    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minZoom <= maxZoom <= 30.
+    /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minZoom <= maxZoom <= 30. `minzoom` in the spec.
     public let minZoom: Int?
     
     /// OPTIONAL. A name describing the tileset.
@@ -84,10 +83,10 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         /// OPTIONAL. A human-readable description of the layer.
         public let description: String?
         
-        /// OPTIONAL. The lowest zoom level whose tiles this layer appears in.
+        /// OPTIONAL. The lowest zoom level whose tiles this layer appears in. `maxzoom` in the spec.
         public let minZoom: Int?
         
-        /// OPTIONAL. The highest zoom level whose tiles this layer appears in.
+        /// OPTIONAL. The highest zoom level whose tiles this layer appears in. `minzoom` in the spec.
         public let maxZoom: Int?
         
         /// Initialize a new `VectorLayer`
