@@ -9,7 +9,7 @@ import Foundation
 
 /// A Swift model for TileJSON 3.0.0 specification.
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
-public struct TileJSON: Codable {
+public struct TileJSON: Codable, Equatable, Hashable {
     // TODO: Verify that this is TileJSON 3.0, fix initializer
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object.
     public let tilejson: String
@@ -73,7 +73,7 @@ public struct TileJSON: Codable {
     }
     
     /// Describes one layer of vector tile data
-    public struct VectorLayer: Codable {
+    public struct VectorLayer: Codable, Equatable, Hashable {
         /// REQUIRED. A string value representing the layer id.
         public let id: String
         
