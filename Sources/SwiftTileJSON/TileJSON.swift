@@ -9,69 +9,88 @@ import Foundation
 
 /// A Swift model for TileJSON 3.0.0 specification.
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
-struct TileJSON: Codable {
+public struct TileJSON: Codable {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object.
-    let tilejson: String
+    public let tilejson: String
     
     /// REQUIRED. An array of tile endpoints. Must contain at least one endpoint.
-    let tiles: [String]
+    public let tiles: [String]
     
     /// REQUIRED for vector tiles, not required for other formats like raster tiles.
     /// An array of objects describing vector tile layers.
-    let vectorLayers: [VectorLayer]?
+    public let vectorLayers: [VectorLayer]?
     
     /// OPTIONAL. Attribution to be displayed when the map is shown.
-    let attribution: String?
+    public let attribution: String?
     
     /// OPTIONAL. The maximum extent of available map tiles in the format [left, bottom, right, top].
     /// Default: [-180, -85.05112877980659, 180, 85.0511287798066]
-    let bounds: [Double]?
+    public let bounds: [Double]?
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
-    let center: [Double]?
+    public let center: [Double]?
     
     /// OPTIONAL. An array of GeoJSON data files. Default: []
-    let data: [String]?
+    public let data: [String]?
     
     /// OPTIONAL. A text description of the tileset.
-    let description: String?
+    public let description: String?
     
     /// OPTIONAL. An integer specifying the zoom level from which to generate overzoomed tiles.
-    let fillzoom: Int?
+    public let fillzoom: Int?
     
     /// OPTIONAL. An array of interactivity endpoints. Default: []
-    let grids: [String]?
+    public let grids: [String]?
     
     /// OPTIONAL. Contains a legend to be displayed with the map.
-    let legend: String?
+    public let legend: String?
     
     /// OPTIONAL. Maximum zoom level. Default: 30. Must be in range: 0 <= minzoom <= maxzoom <= 30.
-    let maxzoom: Int?
+    public let maxzoom: Int?
     
     /// OPTIONAL. Minimum zoom level. Default: 0. Must be in range: 0 <= minzoom <= maxzoom <= 30.
-    let minzoom: Int?
+    public let minzoom: Int?
     
     /// OPTIONAL. A name describing the tileset.
-    let name: String?
+    public let name: String?
     
     /// OPTIONAL. Either "xyz" or "tms". Default: "xyz"
-    let scheme: TileScheme?
+    public let scheme: TileScheme?
     
     /// OPTIONAL. Contains a mustache template for interactivity formatting.
-    let template: String?
+    public let template: String?
     
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
-    let version: String?
+    public let version: String?
     
     /// OPTIONAL. A collection of the unmapped key/value pairs
-    let customFields: [String: Any]?
+    public let customFields: [String: Any]?
     
     // MARK: - Nested Types
     
     /// The schema for the tile coordinates
-    enum TileScheme: String, Codable {
+    public enum TileScheme: String, Codable {
         case xyz = "xyz"
         case tms = "tms"
+    }
+    
+    /// Describes one layer of vector tile data
+    public struct VectorLayer: Codable {
+        /// REQUIRED. A string value representing the layer id.
+        public let id: String
+        
+        /// REQUIRED. An object whose keys and values are the names and descriptions of attributes.
+        /// If no fields are present, it should be an empty object.
+        public let fields: [String: String]
+        
+        /// OPTIONAL. A human-readable description of the layer.
+        public let description: String?
+        
+        /// OPTIONAL. The lowest zoom level whose tiles this layer appears in.
+        public let minzoom: Int?
+        
+        /// OPTIONAL. The highest zoom level whose tiles this layer appears in.
+        public let maxzoom: Int?
     }
     
     // MARK: - CodingKeys
@@ -138,7 +157,7 @@ struct TileJSON: Codable {
 
 extension TileJSON {
     /// Custom initializer to validate TileJSON data during decoding
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         // Decode REQUIRED fields

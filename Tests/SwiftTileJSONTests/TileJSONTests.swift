@@ -7,7 +7,7 @@
 
 import Foundation
 import Testing
-@testable import SwiftTileJSON
+import SwiftTileJSON
 
 struct OSMExampleTests {
     @Test func osmExampleDecodes() {
@@ -17,7 +17,7 @@ struct OSMExampleTests {
     }
     
     @Test func osmExampleCustomFields() {
-        let tileJSON = try! TileJSON.decode(from: TestData.fromFile("osm")!)
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: TestData.fromFile("osm")!)
         
         #expect(tileJSON.customFields?["something_custom"] as? String == "this is my unique field")
     }
