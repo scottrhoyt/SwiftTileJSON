@@ -38,7 +38,7 @@ public struct CustomFieldsTileJSON: TileJSONFields, Codable {
     public var grids: [String]? { tileJSON.grids }
     public var legend: String? { tileJSON.legend }
     public var maxZoom: Int? { tileJSON.maxZoom }
-    public var minzoom: Int? { tileJSON.minzoom }
+    public var minZoom: Int? { tileJSON.minZoom }
     public var name: String? { tileJSON.name }
     public var scheme: TileJSON.TileScheme? { tileJSON.scheme }
     public var template: String? { tileJSON.template }
