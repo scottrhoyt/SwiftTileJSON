@@ -151,6 +151,46 @@ public struct TileJSON: Codable {
     var effectiveGrids: [String] {
         return grids ?? []
     }
+    
+    public init(
+        tilejson: String,
+        tiles: [String],
+        vectorLayers: [TileJSON.VectorLayer]? = nil,
+        attribution: String? = nil,
+        bounds: [Double]? = nil,
+        center: [Double]? = nil,
+        data: [String]? = nil,
+        description: String? = nil,
+        fillzoom: Int? = nil,
+        grids: [String]? = nil,
+        legend: String? = nil,
+        maxzoom: Int? = nil,
+        minzoom: Int? = nil,
+        name: String? = nil,
+        scheme: TileJSON.TileScheme? = nil,
+        template: String? = nil,
+        version: String? = nil,
+        customFields: [String : Any]? = nil
+    ) {
+        self.tilejson = tilejson
+        self.tiles = tiles
+        self.vectorLayers = vectorLayers
+        self.attribution = attribution
+        self.bounds = bounds
+        self.center = center
+        self.data = data
+        self.description = description
+        self.fillzoom = fillzoom
+        self.grids = grids
+        self.legend = legend
+        self.maxzoom = maxzoom
+        self.minzoom = minzoom
+        self.name = name
+        self.scheme = scheme
+        self.template = template
+        self.version = version
+        self.customFields = customFields
+    }
 }
 
 // MARK: - Custom Decoding
@@ -313,6 +353,83 @@ extension TileJSON {
         let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
         let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
         customFields = unusedEntries.isEmpty ? nil : unusedEntries
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(tilejson, forKey: .tilejson)
+        try container.encode(tiles, forKey: .tiles)
+        
+        if let vectorLayers = vectorLayers {
+            try container.encode(vectorLayers, forKey: .vectorLayers)
+        }
+        
+        if let attribution = attribution {
+            try container.encode(attribution, forKey: .attribution)
+        }
+        
+        if let bounds = bounds {
+            try container.encode(bounds, forKey: .bounds)
+        }
+        
+        if let center = center {
+            try container.encode(center, forKey: .center)
+        }
+        
+        if let data = data {
+            try container.encode(data, forKey: .data)
+        }
+        
+        if let description = description {
+            try container.encode(description, forKey: .description)
+        }
+        
+        if let fillzoom = fillzoom {
+            try container.encode(fillzoom, forKey: .fillzoom)
+        }
+        
+        if let grids = grids {
+            try container.encode(grids, forKey: .grids)
+        }
+        
+        if let legend = legend {
+            try container.encode(legend, forKey: .legend)
+        }
+        
+        if let maxzoom = maxzoom {
+            try container.encode(maxzoom, forKey: .maxzoom)
+        }
+        
+        if let minzoom = minzoom {
+            try container.encode(minzoom, forKey: .minzoom)
+        }
+        
+        if let name = name {
+            try container.encode(name, forKey: .name)
+        }
+        
+        if let scheme = scheme {
+            try container.encode(scheme, forKey: .scheme)
+        }
+        
+        if let template = template {
+            try container.encode(template, forKey: .template)
+        }
+        
+        if let version = version {
+            try container.encode(version, forKey: .version)
+        }
+        
+        if let customFields = customFields {
+            var dynamicContainer = encoder.container(keyedBy: DynamicCodingKeys.self)
+            for (key, value) in customFields {
+                if let encodableValue = value as? Encodable {
+                    try dynamicContainer.encode(encodableValue, forKey: DynamicCodingKeys(stringValue: key)!)
+                }
+            }
+        }
+        
     }
 }
 
