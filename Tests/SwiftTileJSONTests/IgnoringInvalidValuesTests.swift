@@ -40,7 +40,7 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.center == nil)
         #expect(tileJSON.data == nil)
         #expect(tileJSON.description == nil)
-        #expect(tileJSON.fillzoom == nil)
+        #expect(tileJSON.fillZoom == nil)
         #expect(tileJSON.grids == nil)
         #expect(tileJSON.legend == nil)
         #expect(tileJSON.maxZoom == nil)

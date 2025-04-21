@@ -35,8 +35,8 @@ public protocol TileJSONFields {
     /// OPTIONAL. A text description of the tileset.
     var description: String? { get }
     
-    /// OPTIONAL. An integer specifying the zoom level from which to generate overzoomed tiles.
-    var fillzoom: Int? { get }
+    /// OPTIONAL. An integer specifying the zoom level from which to generate overzoomed tiles. `fillzoom` in the spec.
+    var fillZoom: Int? { get }
     
     /// OPTIONAL. An array of interactivity endpoints. Default: []
     var grids: [String]? { get }

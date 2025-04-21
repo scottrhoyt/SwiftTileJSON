@@ -36,8 +36,8 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     /// OPTIONAL. A text description of the tileset.
     public let description: String?
     
-    /// OPTIONAL. An integer specifying the zoom level from which to generate overzoomed tiles.
-    public let fillzoom: Int?
+    /// OPTIONAL. An integer specifying the zoom level from which to generate overzoomed tiles. `fillzoom` in the spec.
+    public let fillZoom: Int?
     
     /// OPTIONAL. An array of interactivity endpoints. Default: []
     public let grids: [String]?
@@ -141,7 +141,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         case center
         case data
         case description
-        case fillzoom
+        case fillZoom = "fillzoom"
         case grids
         case legend
         case maxZoom = "maxzoom"
@@ -179,7 +179,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         self.center = center
         self.data = data
         self.description = description
-        self.fillzoom = fillzoom
+        self.fillZoom = fillzoom
         self.grids = grids
         self.legend = legend
         self.maxZoom = maxZoom
@@ -230,7 +230,7 @@ extension TileJSON {
         center = try? container.decodeIfPresent([Double].self, forKey: .center)
         data = try? container.decodeIfPresent([String].self, forKey: .data)
         description = try? container.decodeIfPresent(String.self, forKey: .description)
-        fillzoom = try? container.decodeIfPresent(Int.self, forKey: .fillzoom)
+        fillZoom = try? container.decodeIfPresent(Int.self, forKey: .fillZoom)
         grids = try? container.decodeIfPresent([String].self, forKey: .grids)
         legend = try? container.decodeIfPresent(String.self, forKey: .legend)
         maxZoom = try? container.decodeIfPresent(Int.self, forKey: .maxZoom)
