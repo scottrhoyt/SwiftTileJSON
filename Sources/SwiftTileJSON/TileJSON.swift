@@ -63,7 +63,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
     public let version: String?
         
-    // MARK: - CodingKeys
+    // MARK: CodingKeys
     
     internal enum CodingKeys: String, CodingKey, CaseIterable {
         case tileJSONVersion = "tilejson"
