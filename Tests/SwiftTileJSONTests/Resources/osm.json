@@ -28,7 +28,8 @@
             "fields": {
                 "type": "the type of bike parking",
                 "year_installed": "the year the bike parking was installed"
-            }
+            },
+            "maxzoom": 29
         },
         {
             "id": "showers",

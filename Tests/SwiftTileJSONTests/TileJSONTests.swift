@@ -53,7 +53,8 @@ struct OSMExampleTests {
                 fields: [
                     "type" : "the type of bike parking",
                     "year_installed": "the year the bike parking was installed"
-                ]
+                ],
+                maxZoom: 29
             ),
             TileJSON.VectorLayer(
                 id: "showers",
