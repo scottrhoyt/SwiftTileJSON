@@ -62,7 +62,8 @@ struct OSMExampleTests {
                     "water_temperature" : "the maximum water temperature",
                     "wear_sandles": "whether you should wear sandles or not",
                     "wheelchair": "is the shower wheelchair friendly?"
-                ]
+                ],
+                minZoom: 12
             )
         ])
         #expect(tileJSON.center == nil)

@@ -85,7 +85,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         public let description: String?
         
         /// OPTIONAL. The lowest zoom level whose tiles this layer appears in.
-        public let minzoom: Int?
+        public let minZoom: Int?
         
         /// OPTIONAL. The highest zoom level whose tiles this layer appears in.
         public let maxZoom: Int?
@@ -95,13 +95,13 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         ///   - id: The layer id
         ///   - fields: The fields available in the layer and their descriptions
         ///   - description: A description of the layer. Default `nil`.
-        ///   - minzoom: The minimum zoom of the layer. Default `nil`.
-        ///   - maxzoom: The maximum zoom of the layer. Default `nil`.
-        public init(id: String, fields: [String : String], description: String? = nil, minzoom: Int? = nil, maxZoom: Int? = nil) {
+        ///   - minZoom: The minimum zoom of the layer. Default `nil`.
+        ///   - maxZoom: The maximum zoom of the layer. Default `nil`.
+        public init(id: String, fields: [String : String], description: String? = nil, minZoom: Int? = nil, maxZoom: Int? = nil) {
             self.id = id
             self.fields = fields
             self.description = description
-            self.minzoom = minzoom
+            self.minZoom = minZoom
             self.maxZoom = maxZoom
         }
         
@@ -110,7 +110,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
             case id
             case fields
             case description
-            case minzoom
+            case minZoom = "minzoom"
             case maxZoom = "maxzoom"
         }
     }
