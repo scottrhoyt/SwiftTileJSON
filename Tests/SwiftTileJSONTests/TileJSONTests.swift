@@ -10,8 +10,11 @@ import Testing
 @testable import SwiftTileJSON
 
 struct OSMExampleTests {
-    @Test func decodeOSMExample() {
-        let dataURL = Bundle.main.url(forResource: "osm", withExtension: "json")
+    @Test func osmExampleDecodes() {
+        let dataURL = Bundle.module.url(forResource: "osm", withExtension: "json", subdirectory: "Resources")
         let data = try! Data(contentsOf: dataURL!)
+        let tileJSON = try? JSONDecoder().decode(TileJSON.self, from: data)
+        
+        #expect(tileJSON != nil)
     }
 }
