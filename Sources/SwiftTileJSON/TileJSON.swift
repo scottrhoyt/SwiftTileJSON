@@ -63,6 +63,9 @@ struct TileJSON: Codable {
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
     let version: String?
     
+    /// OPTIONAL. A collection of the unmapped key/value pairs
+    let customFields: [String: Any]?
+    
     // MARK: - Nested Types
     
     /// The schema for the tile coordinates
@@ -73,7 +76,7 @@ struct TileJSON: Codable {
     
     // MARK: - CodingKeys
     
-    private enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey, CaseIterable {
         case tilejson
         case tiles
         case vectorLayers = "vector_layers"
@@ -286,6 +289,11 @@ extension TileJSON {
                 )
             }
         }
+        
+        // Decode custom fields
+        let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
+        let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
+        customFields = unusedEntries.isEmpty ? nil : unusedEntries
     }
 }
 
