@@ -66,7 +66,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     // MARK: - Nested Types
     
     /// The schema for the tile coordinates
-    public enum TileScheme: String, Codable {
+    public enum TileScheme: String, Codable, Sendable {
         case xyz = "xyz"
         case tms = "tms"
     }
@@ -134,43 +134,6 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
         case scheme
         case template
         case version
-    }
-    
-    // MARK: - Computed Properties (Default Values)
-    
-    /// The effective bounds with default applied if not specified.
-    var effectiveBounds: [Double] {
-        return bounds ?? [-180, -85.05112877980659, 180, 85.0511287798066]
-    }
-    
-    /// The effective maximum zoom level with default applied if not specified.
-    var effectiveMaxzoom: Int {
-        return maxZoom ?? 30
-    }
-    
-    /// The effective minimum zoom level with default applied if not specified.
-    var effectiveMinzoom: Int {
-        return minZoom ?? 0
-    }
-    
-    /// The effective tile schema with default applied if not specified.
-    var effectiveScheme: TileScheme {
-        return scheme ?? .xyz
-    }
-    
-    /// The effective version with default applied if not specified.
-    var effectiveVersion: String {
-        return version ?? "1.0.0"
-    }
-    
-    /// The effective data array with default applied if not specified.
-    var effectiveData: [String] {
-        return data ?? []
-    }
-    
-    /// The effective grids array with default applied if not specified.
-    var effectiveGrids: [String] {
-        return grids ?? []
     }
     
     public init(
