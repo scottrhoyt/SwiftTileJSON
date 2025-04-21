@@ -151,7 +151,7 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     }
     
     public init(
-        tilejson: String,
+        tilejson: String = "3.0.0",
         tiles: [String],
         vectorLayers: [TileJSON.VectorLayer]? = nil,
         attribution: String? = nil,
