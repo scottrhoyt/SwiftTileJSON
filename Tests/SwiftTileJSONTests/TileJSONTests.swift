@@ -1,6 +1,6 @@
 //
 //  TileJSONTests.swift
-//  TileJSONTests
+//  SwiftTileJSONTests
 //
 //  Created by Scott Hoyt on 4/20/25.
 //
