@@ -10,6 +10,7 @@ import Foundation
 /// A Swift model for TileJSON 3.0.0 specification.
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
 public struct TileJSON: Codable {
+    // TODO: Verify that this is TileJSON 3.0, fix initializer
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object.
     public let tilejson: String
     
@@ -63,9 +64,6 @@ public struct TileJSON: Codable {
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
     public let version: String?
     
-    /// OPTIONAL. A collection of the unmapped key/value pairs
-    public let customFields: [String: Any]?
-    
     // MARK: - Nested Types
     
     /// The schema for the tile coordinates
@@ -95,7 +93,7 @@ public struct TileJSON: Codable {
     
     // MARK: - CodingKeys
     
-    private enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case tilejson
         case tiles
         case vectorLayers = "vector_layers"
@@ -169,8 +167,7 @@ public struct TileJSON: Codable {
         name: String? = nil,
         scheme: TileJSON.TileScheme? = nil,
         template: String? = nil,
-        version: String? = nil,
-        customFields: [String : Any]? = nil
+        version: String? = nil
     ) {
         self.tilejson = tilejson
         self.tiles = tiles
@@ -189,7 +186,6 @@ public struct TileJSON: Codable {
         self.scheme = scheme
         self.template = template
         self.version = version
-        self.customFields = customFields
     }
 }
 
@@ -348,88 +344,6 @@ extension TileJSON {
                 )
             }
         }
-        
-        // Decode custom fields
-        let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
-        let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
-        customFields = unusedEntries.isEmpty ? nil : unusedEntries
-    }
-    
-    public func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(tilejson, forKey: .tilejson)
-        try container.encode(tiles, forKey: .tiles)
-        
-        if let vectorLayers = vectorLayers {
-            try container.encode(vectorLayers, forKey: .vectorLayers)
-        }
-        
-        if let attribution = attribution {
-            try container.encode(attribution, forKey: .attribution)
-        }
-        
-        if let bounds = bounds {
-            try container.encode(bounds, forKey: .bounds)
-        }
-        
-        if let center = center {
-            try container.encode(center, forKey: .center)
-        }
-        
-        if let data = data {
-            try container.encode(data, forKey: .data)
-        }
-        
-        if let description = description {
-            try container.encode(description, forKey: .description)
-        }
-        
-        if let fillzoom = fillzoom {
-            try container.encode(fillzoom, forKey: .fillzoom)
-        }
-        
-        if let grids = grids {
-            try container.encode(grids, forKey: .grids)
-        }
-        
-        if let legend = legend {
-            try container.encode(legend, forKey: .legend)
-        }
-        
-        if let maxzoom = maxzoom {
-            try container.encode(maxzoom, forKey: .maxzoom)
-        }
-        
-        if let minzoom = minzoom {
-            try container.encode(minzoom, forKey: .minzoom)
-        }
-        
-        if let name = name {
-            try container.encode(name, forKey: .name)
-        }
-        
-        if let scheme = scheme {
-            try container.encode(scheme, forKey: .scheme)
-        }
-        
-        if let template = template {
-            try container.encode(template, forKey: .template)
-        }
-        
-        if let version = version {
-            try container.encode(version, forKey: .version)
-        }
-        
-        if let customFields = customFields {
-            var dynamicContainer = encoder.container(keyedBy: DynamicCodingKeys.self)
-            for (key, value) in customFields {
-                if let encodableValue = value as? Encodable {
-                    try dynamicContainer.encode(encodableValue, forKey: DynamicCodingKeys(stringValue: key)!)
-                }
-            }
-        }
-        
     }
 }
 

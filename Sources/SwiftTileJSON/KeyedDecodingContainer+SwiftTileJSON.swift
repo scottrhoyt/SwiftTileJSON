@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension KeyedDecodingContainer {
+internal extension KeyedDecodingContainer {
     func decode(filteringKeys: [CodingKey] = []) throws -> [String: Any] {
         let fileringKeyStrings = filteringKeys.map(\.stringValue)
         var dictionary: [String: Any] = [:]
