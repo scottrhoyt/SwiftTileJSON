@@ -10,6 +10,67 @@ import Testing
 @testable import SwiftTileJSON
 
 struct ValidationTests {
+    @Test func noTilesJSONThrows() {
+        let invalidTileJSON: [String: Any] = [
+            "tiles": ["https://a.tileserver.org"]
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSON, options: [])
+        
+        #expect(performing: {
+            _ = try JSONDecoder().decode(TileJSON.self, from: jsonData)
+        }, throws: { error in
+            guard let error = error as? DecodingError else { return false }
+            switch error {
+            case .keyNotFound(let codingKey, _):
+                return codingKey.stringValue == TileJSON.CodingKeys.tileJSONVersion.stringValue
+            default:
+                return false
+            }
+        })
+    }
+    
+    @Test func noTilesThrows() {
+        let invalidTileJSON: [String: Any] = [
+            "tilejson": "3.0.0"
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSON, options: [])
+        
+        #expect(performing: {
+            _ = try JSONDecoder().decode(TileJSON.self, from: jsonData)
+        }, throws: { error in
+            guard let error = error as? DecodingError else { return false }
+            switch error {
+            case .keyNotFound(let codingKey, _):
+                return codingKey.stringValue == TileJSON.CodingKeys.tiles.stringValue
+            default:
+                return false
+            }
+        })
+    }
+    
+    @Test func emptyTilesThrows() {
+        let invalidTileJSON: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": []
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSON, options: [])
+        
+        #expect(performing: {
+            _ = try JSONDecoder().decode(TileJSON.self, from: jsonData)
+        }, throws: { error in
+            guard let error = error as? DecodingError else { return false }
+            switch error {
+            case .dataCorrupted(let context):
+                return context.debugDescription == "TileJSON requires at least one tile endpoint."
+            default:
+                return false
+            }
+        })
+    }
+    
     @Test(
         arguments: [
             "3.0.0",
@@ -49,7 +110,7 @@ struct ValidationTests {
             "version3"
         ]
     )
-    func invalidatesVersion(versionString: String) {
+    func invalidVersionThrows(versionString: String) {
         let invalidTileJSON: [String: Any] = [
             "tilejson": versionString,
             "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"]
