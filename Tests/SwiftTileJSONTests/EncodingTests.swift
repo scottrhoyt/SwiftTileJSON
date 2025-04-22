@@ -11,7 +11,7 @@ import Testing
 
 struct EncodingTests {
     @Test func customFieldsEncoding() {
-        let tileJSON = TileJSON(tilejson: "3.0.0", tiles: ["http://a.tileserver.org/{z}/{x}/{y}"])
+        let tileJSON = TileJSON(tiles: ["http://a.tileserver.org/{z}/{x}/{y}"])
         let customFields: [String: Any] = [
             "something_custom": "this is my unique field",
             "another_custom": 42

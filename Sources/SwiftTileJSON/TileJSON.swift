@@ -65,7 +65,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
     public let version: String?
     
     public init(
-        tilejson: String = "3.0.0",
+        tileJSONVersion: String = "3.0.0",
         tiles: [String],
         vectorLayers: [VectorLayer]? = nil,
         attribution: String? = nil,
@@ -73,7 +73,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         center: Center? = nil,
         data: [String]? = nil,
         description: String? = nil,
-        fillzoom: Int? = nil,
+        fillZoom: Int? = nil,
         grids: [String]? = nil,
         legend: String? = nil,
         maxZoom: Int? = nil,
@@ -83,7 +83,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         template: String? = nil,
         version: String? = nil
     ) {
-        self.tileJSONVersion = tilejson
+        self.tileJSONVersion = tileJSONVersion
         self.tiles = tiles
         self.vectorLayers = vectorLayers
         self.attribution = attribution
@@ -91,7 +91,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         self.center = center
         self.data = data
         self.description = description
-        self.fillZoom = fillzoom
+        self.fillZoom = fillZoom
         self.grids = grids
         self.legend = legend
         self.maxZoom = maxZoom
