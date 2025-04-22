@@ -136,11 +136,18 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.maxZoom == nil)
     }
     
-    @Test func invalidTileJSONCenterCountIgnored() {
+    @Test(
+        arguments: [
+            [0.1],
+            [0.1, 0.2],
+            [0.1, 0.2, 0.3, 0.4]
+        ]
+    )
+    func invalidTileJSONCenterCountIgnored(center: [Double]) {
         let invalidTileJSONCenter: [String: Any] = [
             "tilejson": "3.0.0",
             "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
-            "center": [0.1]
+            "center": center
         ]
         
         let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONCenter, options: [])
