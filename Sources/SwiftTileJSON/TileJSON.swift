@@ -152,6 +152,37 @@ extension TileJSON {
             
             return (validatedMinZoom, validatedMaxZoom)
         }
+        
+        static func center(_ center: [Double]?, minZoom: Int?, maxZoom: Int?, bounds: [Double]?) -> [Double]? {
+            guard let center = center, center.count == 3 else { return nil }
+            
+            let centerLongitude = center[0]
+            let centerLatitude = center[1]
+            let centerZoom = Int(center[2])
+            
+            if
+                Valid.longitudeRange.contains(centerLongitude) == false ||
+                Valid.latitudeRange.contains(centerLatitude) == false ||
+                Valid.zoomRange.contains(centerZoom) == false
+            {
+                return nil
+            }
+            
+            if let minZoom = minZoom, let maxZoom = maxZoom, (minZoom...maxZoom).contains(centerZoom) == false {
+                return nil
+            }
+            
+            if let bounds = bounds, bounds.count == 4 {
+                if
+                    (bounds[0]...bounds[2]).contains(centerLongitude) == false ||
+                    (bounds[1]...bounds[3]).contains(centerLatitude) == false
+                {
+                    return nil
+                }
+            }
+            
+            return center
+        }
     }
     
     /// Custom initializer to validate TileJSON data during decoding
@@ -186,7 +217,6 @@ extension TileJSON {
         // Decode OPTIONAL fields, ignoring if invalid.
         vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
         attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
-        center = try? container.decodeIfPresent([Double].self, forKey: .center)
         data = try? container.decodeIfPresent([String].self, forKey: .data)
         description = try? container.decodeIfPresent(String.self, forKey: .description)
         fillZoom = try? container.decodeIfPresent(Int.self, forKey: .fillZoom)
@@ -217,63 +247,13 @@ extension TileJSON {
             maxZoom: try? container.decodeIfPresent(Int.self, forKey: .maxZoom)
         )
         
-        // Validate center if present
-        if let center = center {
-            guard center.count == 3 else {
-                throw DecodingError.dataCorrupted(
-                    DecodingError.Context(
-                        codingPath: [CodingKeys.center],
-                        debugDescription: "TileJSON requires center to have exactly 3 elements [longitude, latitude, zoom]."
-                    )
-                )
-            }
-            
-            let lon = center[0]
-            let lat = center[1]
-            let zoom = center[2]
-            
-            // Validate longitude, latitude, and zoom are in valid ranges
-            guard lon >= -180 && lon <= 180 &&
-                  lat >= -90 && lat <= 90 &&
-                  zoom >= 0 && zoom <= 30 else {
-                throw DecodingError.dataCorrupted(
-                    DecodingError.Context(
-                        codingPath: [CodingKeys.center],
-                        debugDescription: "TileJSON requires center longitude in [-180, 180], latitude in [-90, 90], and zoom in [0, 30]."
-                    )
-                )
-            }
-            
-            // If bounds are specified, validate center is within bounds
-            if let bounds = bounds {
-                let minLon = bounds[0]
-                let minLat = bounds[1]
-                let maxLon = bounds[2]
-                let maxLat = bounds[3]
-                
-                guard lon >= minLon && lon <= maxLon &&
-                      lat >= minLat && lat <= maxLat else {
-                    throw DecodingError.dataCorrupted(
-                        DecodingError.Context(
-                            codingPath: [CodingKeys.center, CodingKeys.bounds],
-                            debugDescription: "TileJSON requires center to be within the specified bounds."
-                        )
-                    )
-                }
-            }
-            
-            // If minZoom and maxZoom are specified, validate zoom is within range
-            if let minZoom = minZoom, let maxZoom = maxZoom {
-                guard zoom >= Double(minZoom) && zoom <= Double(maxZoom) else {
-                    throw DecodingError.dataCorrupted(
-                        DecodingError.Context(
-                            codingPath: [CodingKeys.center, CodingKeys.minZoom, CodingKeys.maxZoom],
-                            debugDescription: "TileJSON requires center zoom to be between minZoom and maxZoom."
-                        )
-                    )
-                }
-            }
-        }
+        // Decode OPTIONAL center. `nil` in invalid.
+        center = Valid.center(
+            try? container.decodeIfPresent([Double].self, forKey: .center),
+            minZoom: minZoom,
+            maxZoom: maxZoom,
+            bounds: bounds
+        )
     }
     
     private static func isValid(tileJsonVersion: String) -> Bool {

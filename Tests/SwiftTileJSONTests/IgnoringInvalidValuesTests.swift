@@ -128,6 +128,68 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.maxZoom == nil)
     }
     
+    @Test func invalidTileJSONCenterCountIgnored() {
+        let invalidTileJSONCenter: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "center": [0.1]
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONCenter, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.center == nil)
+    }
+    
+    @Test(
+        arguments: [
+            [-181, 0, 0],
+            [181, 0, 0],
+            [0, -91, 0],
+            [0, 91, 0],
+            [0, 0, -1],
+            [0, 0, 31]
+        ]
+    )
+    func invalidTileJSONCenterCoordinates(center: [Double]) {
+        let invalidTileJSONCenter: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "center": center
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONCenter, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.center == nil)
+    }
+    
+    @Test(
+        arguments: [
+            [-120, 0, 7],
+            [120, 0, 7],
+            [0, -80, 7],
+            [0, 80, 7],
+            [0, 0, 2],
+            [0, 0, 12]
+        ]
+    )
+    func invalidTileJSONCenterOutOfBounds(center: [Double]) {
+        let invalidTileJSONCenter: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "minzoom": 4,
+            "maxzoom": 10,
+            "bounds": [-100, -50, 100, 50],
+            "center": center
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONCenter, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.center == nil)
+    }
+    
     @Test func invalidVectorLayersOptionalValuesIgnored() {
         let invalidVectorLayer: [String: Any] = [
             "id": "id",
