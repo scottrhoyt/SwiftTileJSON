@@ -153,6 +153,21 @@ extension TileJSON {
             return (validatedMinZoom, validatedMaxZoom)
         }
         
+        static func bounds(_ bounds: [Double]?) -> [Double]? {
+            guard
+                let bounds = bounds,
+                bounds.count == 4 &&
+                Valid.longitudeRange.contains(bounds[0]) &&
+                Valid.latitudeRange.contains(bounds[1]) &&
+                Valid.longitudeRange.contains(bounds[2]) &&
+                Valid.latitudeRange.contains(bounds[3])
+            else {
+                return nil
+            }
+            
+            return bounds
+        }
+        
         static func center(_ center: [Double]?, minZoom: Int?, maxZoom: Int?, bounds: [Double]?) -> [Double]? {
             guard let center = center, center.count == 3 else { return nil }
             
@@ -228,18 +243,7 @@ extension TileJSON {
         version = try? container.decodeIfPresent(String.self, forKey: .version)
         
         // Decode OPTIONAL bounds. `nil` if invalid.
-        if
-            let potentialBounds = try? container.decodeIfPresent([Double].self, forKey: .bounds),
-            potentialBounds.count == 4 &&
-            Valid.longitudeRange.contains(potentialBounds[0]) &&
-            Valid.latitudeRange.contains(potentialBounds[1]) &&
-            Valid.longitudeRange.contains(potentialBounds[2]) &&
-            Valid.latitudeRange.contains(potentialBounds[3])
-        {
-            bounds = potentialBounds
-        } else {
-            bounds = nil
-        }
+        bounds = Valid.bounds(try? container.decodeIfPresent([Double].self, forKey: .bounds))
         
         // Decove OPTIONAL zoom levels. `nil` if invalid.
         (minZoom, maxZoom) = Valid.zoomLevels(
