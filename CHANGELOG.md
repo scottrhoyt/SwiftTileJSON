@@ -1,6 +1,6 @@
 #  Change Log
 
-## `master`
+## `main`
 * Fix `TileJSON` init parameters
 
 ## 0.1.1
