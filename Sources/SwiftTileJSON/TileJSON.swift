@@ -25,7 +25,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
     
     /// OPTIONAL. The maximum extent of available map tiles in the format [left, bottom, right, top].
     /// Default: [-180, -85.05112877980659, 180, 85.0511287798066]
-    public let bounds: [Double]?
+    public let bounds: Bounds?
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
     public let center: [Double]?
@@ -68,7 +68,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         tiles: [String],
         vectorLayers: [VectorLayer]? = nil,
         attribution: String? = nil,
-        bounds: [Double]? = nil,
+        bounds: Bounds? = nil,
         center: [Double]? = nil,
         data: [String]? = nil,
         description: String? = nil,
@@ -156,6 +156,7 @@ extension TileJSON: Codable {
         
         // Decode OPTIONAL fields, ignoring if invalid.
         vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
+        bounds = try? container.decodeIfPresent(Bounds.self, forKey: .bounds)
         attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
         data = try? container.decodeIfPresent([String].self, forKey: .data)
         description = try? container.decodeIfPresent(String.self, forKey: .description)
@@ -166,9 +167,6 @@ extension TileJSON: Codable {
         scheme = try? container.decodeIfPresent(TileScheme.self, forKey: .scheme)
         template = try? container.decodeIfPresent(String.self, forKey: .template)
         version = try? container.decodeIfPresent(String.self, forKey: .version)
-        
-        // Decode OPTIONAL bounds. `nil` if invalid.
-        bounds = Valid.bounds(try? container.decodeIfPresent([Double].self, forKey: .bounds))
         
         // Decove OPTIONAL zoom levels. `nil` if invalid.
         (minZoom, maxZoom) = Valid.zoomLevels(

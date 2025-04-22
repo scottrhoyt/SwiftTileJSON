@@ -24,7 +24,7 @@ public protocol TileJSONFields {
     
     /// OPTIONAL. The maximum extent of available map tiles in the format [left, bottom, right, top].
     /// Default: [-180, -85.05112877980659, 180, 85.0511287798066]
-    var bounds: [Double]? { get }
+    var bounds: TileJSON.Bounds? { get }
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
     var center: [Double]? { get }

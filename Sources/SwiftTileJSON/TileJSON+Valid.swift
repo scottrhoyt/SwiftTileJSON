@@ -49,24 +49,8 @@ extension TileJSON {
             return (validatedMinZoom, validatedMaxZoom)
         }
         
-        /// Validates bounds
-        static func bounds(_ bounds: [Double]?) -> [Double]? {
-            guard
-                let bounds = bounds,
-                bounds.count == 4 &&
-                    Valid.longitudeRange.contains(bounds[0]) &&
-                    Valid.latitudeRange.contains(bounds[1]) &&
-                    Valid.longitudeRange.contains(bounds[2]) &&
-                    Valid.latitudeRange.contains(bounds[3])
-            else {
-                return nil
-            }
-            
-            return bounds
-        }
-        
         /// Validates center
-        static func center(_ center: [Double]?, minZoom: Int?, maxZoom: Int?, bounds: [Double]?) -> [Double]? {
+        static func center(_ center: [Double]?, minZoom: Int?, maxZoom: Int?, bounds: Bounds?) -> [Double]? {
             guard let center = center, center.count == 3 else { return nil }
             
             let centerLongitude = center[0]
@@ -75,8 +59,8 @@ extension TileJSON {
             
             if
                 Valid.longitudeRange.contains(centerLongitude) == false ||
-                    Valid.latitudeRange.contains(centerLatitude) == false ||
-                    Valid.zoomRange.contains(centerZoom) == false
+                Valid.latitudeRange.contains(centerLatitude) == false ||
+                Valid.zoomRange.contains(centerZoom) == false
             {
                 return nil
             }
@@ -85,13 +69,12 @@ extension TileJSON {
                 return nil
             }
             
-            if let bounds = bounds, bounds.count == 4 {
-                if
-                    (bounds[0]...bounds[2]).contains(centerLongitude) == false ||
-                        (bounds[1]...bounds[3]).contains(centerLatitude) == false
-                {
-                    return nil
-                }
+            if
+                let bounds = bounds,
+                (bounds.minLongitude...bounds.maxLongitude).contains(centerLongitude) == false ||
+                (bounds.minLatitude...bounds.maxLatitude).self.contains(centerLatitude) == false
+            {
+                return nil
             }
             
             return center

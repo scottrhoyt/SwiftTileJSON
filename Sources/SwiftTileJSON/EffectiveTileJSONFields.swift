@@ -9,7 +9,7 @@ import Foundation
 
 public protocol EffectiveTileJSONFields {
     /// The effective bounds with default applied if not specified.
-    var effectiveBounds: [Double] { get }
+    var effectiveBounds: TileJSON.Bounds { get }
     
     /// The effective maximum zoom level with default applied if not specified.
     var effectiveMaxZoom: Int { get }
@@ -32,7 +32,12 @@ public protocol EffectiveTileJSONFields {
 
 extension TileJSON: EffectiveTileJSONFields {
     struct Defaults {
-        static let bounds = [-180, -85.05112877980659, 180, 85.0511287798066]
+        static let bounds = Bounds(
+            minLongitude: -180,
+            minLatitude: -85.05112877980659,
+            maxLongitude: 180,
+            maxLatitude: 85.0511287798066
+        )
         static let maxZoom = 30
         static let minZoom = 0
         static let scheme = TileJSON.TileScheme.xyz
@@ -41,7 +46,7 @@ extension TileJSON: EffectiveTileJSONFields {
         static let grids = [String]()
     }
     
-    public var effectiveBounds: [Double] { bounds ?? Defaults.bounds }
+    public var effectiveBounds: Bounds { bounds ?? Defaults.bounds }
     public var effectiveMaxZoom: Int { maxZoom ?? Defaults.maxZoom }
     public var effectiveMinZoom: Int { minZoom ?? Defaults.minZoom }
     public var effectiveScheme: TileScheme { scheme ?? Defaults.scheme }
@@ -51,7 +56,7 @@ extension TileJSON: EffectiveTileJSONFields {
 }
 
 extension CustomFieldsTileJSON: EffectiveTileJSONFields {
-    public var effectiveBounds: [Double] { tileJSON.bounds ?? TileJSON.Defaults.bounds }
+    public var effectiveBounds: TileJSON.Bounds { tileJSON.bounds ?? TileJSON.Defaults.bounds }
     public var effectiveMaxZoom: Int { tileJSON.maxZoom ?? TileJSON.Defaults.maxZoom }
     public var effectiveMinZoom: Int { tileJSON.minZoom ?? TileJSON.Defaults.minZoom }
     public var effectiveScheme: TileJSON.TileScheme { tileJSON.scheme ?? TileJSON.Defaults.scheme }
