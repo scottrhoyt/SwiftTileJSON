@@ -8,6 +8,7 @@
 import Foundation
 
 public extension TileJSON {
+    /// Structured representation of TileJSON `center`
     struct Center: Equatable, Hashable, Codable, Sendable {
         public var longitude: Double
         public var latitude: Double
