@@ -54,7 +54,7 @@ struct OSMExampleTests {
                     "type" : "the type of bike parking",
                     "year_installed": "the year the bike parking was installed"
                 ],
-                maxZoom: 29
+                maxZoom: 17
             ),
             TileJSON.VectorLayer(
                 id: "showers",
@@ -63,7 +63,7 @@ struct OSMExampleTests {
                     "wear_sandles": "whether you should wear sandles or not",
                     "wheelchair": "is the shower wheelchair friendly?"
                 ],
-                minZoom: 12
+                minZoom: 1
             )
         ])
         #expect(tileJSON.center == nil)

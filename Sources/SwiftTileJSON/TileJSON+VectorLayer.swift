@@ -21,10 +21,10 @@ public extension TileJSON {
         public let description: String?
         
         /// OPTIONAL. The lowest zoom level whose tiles this layer appears in. `maxzoom` in the spec.
-        public let minZoom: Int?
+        public internal(set) var minZoom: Int?
         
         /// OPTIONAL. The highest zoom level whose tiles this layer appears in. `minzoom` in the spec.
-        public let maxZoom: Int?
+        public internal(set) var maxZoom: Int?
         
         /// Initialize a new `VectorLayer`
         /// - Parameters:
@@ -57,13 +57,15 @@ public extension TileJSON {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             
             // Decode REQUIRED fields.
-            self.id = try container.decode(String.self, forKey: TileJSON.VectorLayer.CodingKeys.id)
-            self.fields = try container.decode([String : String].self, forKey: TileJSON.VectorLayer.CodingKeys.fields)
+            id = try container.decode(String.self, forKey: TileJSON.VectorLayer.CodingKeys.id)
+            fields = try container.decode([String : String].self, forKey: TileJSON.VectorLayer.CodingKeys.fields)
             
             // Decode OPTIONAL fields, ignoring if invalid.
-            self.description = try? container.decodeIfPresent(String.self, forKey: TileJSON.VectorLayer.CodingKeys.description)
-            self.minZoom = try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.minZoom)
-            self.maxZoom = try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.maxZoom)
+            description = try? container.decodeIfPresent(String.self, forKey: TileJSON.VectorLayer.CodingKeys.description)
+            (minZoom, maxZoom) = Valid.zoomLevels(
+                minZoom: try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.minZoom),
+                maxZoom: try? container.decodeIfPresent(Int.self, forKey: TileJSON.VectorLayer.CodingKeys.maxZoom)
+            )
         }
     }
 }

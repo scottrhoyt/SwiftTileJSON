@@ -69,5 +69,20 @@ extension TileJSON {
             
             return center
         }
+        
+        /// Validates VectorLayer zoom levels
+        static func vectorLayer(_ vectorLayer: VectorLayer, minZoom: Int?, maxZoom: Int?) -> VectorLayer {
+            var validatedVectorLayer = vectorLayer
+            
+            if let minZoom = minZoom, let vectorLayerMinZoom = vectorLayer.minZoom, vectorLayerMinZoom < minZoom {
+                validatedVectorLayer.minZoom = nil
+            }
+            
+            if let maxZoom = maxZoom, let vectorLayerMaxZoom = vectorLayer.maxZoom, vectorLayerMaxZoom > maxZoom {
+                validatedVectorLayer.maxZoom = nil
+            }
+            
+            return validatedVectorLayer
+        }
     }
 }

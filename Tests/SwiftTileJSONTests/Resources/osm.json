@@ -29,7 +29,7 @@
                 "type": "the type of bike parking",
                 "year_installed": "the year the bike parking was installed"
             },
-            "maxzoom": 29
+            "maxzoom": 17
         },
         {
             "id": "showers",
@@ -38,7 +38,7 @@
                 "wear_sandles": "whether you should wear sandles or not",
                 "wheelchair": "is the shower wheelchair friendly?"
             },
-            "minzoom": 12
+            "minzoom": 1
         }
     ]
 }

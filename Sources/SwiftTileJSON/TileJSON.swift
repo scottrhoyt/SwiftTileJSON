@@ -155,7 +155,7 @@ extension TileJSON: Codable {
         }
         
         // Decode OPTIONAL fields, ignoring if invalid.
-        vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
+//        vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
         bounds = try? container.decodeIfPresent(Bounds.self, forKey: .bounds)
         attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
         data = try? container.decodeIfPresent([String].self, forKey: .data)
@@ -168,11 +168,18 @@ extension TileJSON: Codable {
         template = try? container.decodeIfPresent(String.self, forKey: .template)
         version = try? container.decodeIfPresent(String.self, forKey: .version)
         
-        // Decove OPTIONAL zoom levels. `nil` if invalid.
+        // Decode OPTIONAL zoom levels. `nil` if invalid.
         (minZoom, maxZoom) = Valid.zoomLevels(
             minZoom: try? container.decodeIfPresent(Int.self, forKey: .minZoom),
             maxZoom: try? container.decodeIfPresent(Int.self, forKey: .maxZoom)
         )
+        
+        // Decode OPTIONAL vector_layers. `nil` if invalid.
+        if let potentialVectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers) {
+            vectorLayers = potentialVectorLayers.map { [minZoom, maxZoom] in Valid.vectorLayer($0, minZoom: minZoom, maxZoom: maxZoom) }
+        } else {
+            vectorLayers = nil
+        }
         
         // Decode OPTIONAL center. `nil` in invalid.
         center = Valid.center(
