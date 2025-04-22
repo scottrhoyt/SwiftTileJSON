@@ -50,29 +50,19 @@ extension TileJSON {
         }
         
         /// Validates center
-        static func center(_ center: [Double]?, minZoom: Int?, maxZoom: Int?, bounds: Bounds?) -> [Double]? {
-            guard let center = center, center.count == 3 else { return nil }
-            
-            let centerLongitude = center[0]
-            let centerLatitude = center[1]
-            let centerZoom = Int(center[2])
-            
-            if
-                Valid.longitudeRange.contains(centerLongitude) == false ||
-                Valid.latitudeRange.contains(centerLatitude) == false ||
-                Valid.zoomRange.contains(centerZoom) == false
-            {
+        static func center(_ center: Center?, minZoom: Int?, maxZoom: Int?, bounds: Bounds?) -> Center? {
+            guard let center = center else {
                 return nil
             }
             
-            if let minZoom = minZoom, let maxZoom = maxZoom, (minZoom...maxZoom).contains(centerZoom) == false {
+            if let minZoom = minZoom, let maxZoom = maxZoom, (minZoom...maxZoom).contains(center.zoom) == false {
                 return nil
             }
             
             if
                 let bounds = bounds,
-                (bounds.minLongitude...bounds.maxLongitude).contains(centerLongitude) == false ||
-                (bounds.minLatitude...bounds.maxLatitude).self.contains(centerLatitude) == false
+                (bounds.minLongitude...bounds.maxLongitude).contains(center.longitude) == false ||
+                (bounds.minLatitude...bounds.maxLatitude).self.contains(center.latitude) == false
             {
                 return nil
             }

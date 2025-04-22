@@ -28,7 +28,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
     public let bounds: Bounds?
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
-    public let center: [Double]?
+    public let center: Center?
     
     /// OPTIONAL. An array of GeoJSON data files. Default: []
     public let data: [String]?
@@ -69,7 +69,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         vectorLayers: [VectorLayer]? = nil,
         attribution: String? = nil,
         bounds: Bounds? = nil,
-        center: [Double]? = nil,
+        center: Center? = nil,
         data: [String]? = nil,
         description: String? = nil,
         fillzoom: Int? = nil,
@@ -176,7 +176,7 @@ extension TileJSON: Codable {
         
         // Decode OPTIONAL center. `nil` in invalid.
         center = Valid.center(
-            try? container.decodeIfPresent([Double].self, forKey: .center),
+            try? container.decodeIfPresent(Center.self, forKey: .center),
             minZoom: minZoom,
             maxZoom: maxZoom,
             bounds: bounds

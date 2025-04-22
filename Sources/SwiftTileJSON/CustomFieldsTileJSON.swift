@@ -33,7 +33,7 @@ extension CustomFieldsTileJSON: TileJSONFields {
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
     public var attribution: String? { tileJSON.attribution }
     public var bounds: TileJSON.Bounds? { tileJSON.bounds }
-    public var center: [Double]? { tileJSON.center }
+    public var center: TileJSON.Center? { tileJSON.center }
     public var data: [String]? { tileJSON.data }
     public var description: String? {tileJSON.description }
     public var fillZoom: Int? { tileJSON.fillZoom }

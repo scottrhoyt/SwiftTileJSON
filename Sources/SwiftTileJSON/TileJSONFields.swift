@@ -27,7 +27,7 @@ public protocol TileJSONFields {
     var bounds: TileJSON.Bounds? { get }
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
-    var center: [Double]? { get }
+    var center: TileJSON.Center? { get }
     
     /// OPTIONAL. An array of GeoJSON data files. Default: []
     var data: [String]? { get }

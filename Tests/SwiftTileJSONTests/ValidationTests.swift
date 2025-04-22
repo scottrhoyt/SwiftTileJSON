@@ -142,6 +142,6 @@ struct ValidationTests {
         let jsonData = try! JSONSerialization.data(withJSONObject: validTileJSON)
         let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
         
-        #expect(tileJSON.center == [-20, 20, 7])
+        #expect(tileJSON.center == TileJSON.Center(longitude: -20, latitude: 20, zoom: 7))
     }
 }
