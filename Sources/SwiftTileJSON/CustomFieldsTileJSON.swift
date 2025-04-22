@@ -8,7 +8,7 @@
 import Foundation
 
 /// A wrapper for handling arbitrary fields in a TileJSON object
-public struct CustomFieldsTileJSON: TileJSONFields, Codable {
+public struct CustomFieldsTileJSON {
     /// The underlying `TileJSON` object
     public let tileJSON: TileJSON
     
@@ -23,9 +23,11 @@ public struct CustomFieldsTileJSON: TileJSONFields, Codable {
         self.tileJSON = tileJSON
         self.customFields = customFields
     }
-    
-    // MARK: TileJSONFields
-    
+}
+
+// MARK: - TileJSONFields
+
+extension CustomFieldsTileJSON: TileJSONFields {
     public var tileJSONVersion: String { tileJSON.tileJSONVersion }
     public var tiles: [String] { tileJSON.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
@@ -43,9 +45,11 @@ public struct CustomFieldsTileJSON: TileJSONFields, Codable {
     public var scheme: TileJSON.TileScheme? { tileJSON.scheme }
     public var template: String? { tileJSON.template }
     public var version: String? { tileJSON.version }
-    
-    // MARK: Decoding
-    
+}
+
+// MARK: - Codable
+
+extension CustomFieldsTileJSON: Codable {
     public init(from decoder: Decoder) throws {
         tileJSON = try .init(from: decoder)
         
@@ -54,9 +58,7 @@ public struct CustomFieldsTileJSON: TileJSONFields, Codable {
         let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
         customFields = unusedEntries.isEmpty ? nil : unusedEntries
     }
-    
-    // MARK: Encoding
-    
+        
     public func encode(to encoder: any Encoder) throws {
         try tileJSON.encode(to: encoder)
         
