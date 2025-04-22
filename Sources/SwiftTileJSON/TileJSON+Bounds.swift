@@ -32,24 +32,19 @@ public extension TileJSON {
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             
-            var decodedBounds = [Double]()
-            while !container.isAtEnd {
-                decodedBounds.append(try container.decode(Double.self))
-            }
+            minLongitude = try container.decode(Double.self)
+            minLatitude = try container.decode(Double.self)
+            maxLongitude = try container.decode(Double.self)
+            maxLatitude = try container.decode(Double.self)
             
-            if decodedBounds.count != 4 {
+            if container.isAtEnd == false {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
-                        debugDescription: "Expected 4 bounds values, but found \(decodedBounds.count)"
+                        debugDescription: "Expected 4 bounds values, but found more."
                     )
                 )
             }
-            
-            minLongitude = decodedBounds[0]
-            minLatitude = decodedBounds[1]
-            maxLongitude = decodedBounds[2]
-            maxLatitude = decodedBounds[3]
             
             if Valid.longitudeRange.contains(minLongitude) == false {
                 throw DecodingError.dataCorrupted(

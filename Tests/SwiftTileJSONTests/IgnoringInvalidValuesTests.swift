@@ -51,11 +51,19 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.version == nil)
     }
     
-    @Test func invalidTileJSONBoundsCountIgnored() {
+    @Test(
+        arguments: [
+            [0.1],
+            [0.1, 0.2],
+            [0.1, 0.2, 0.3],
+            [0.1, 0.2, 0.3, 0.4, 0.5]
+        ]
+    )
+    func invalidTileJSONBoundsCountIgnored(bounds: [Double]) {
         let invalidTileJSONBounds: [String: Any] = [
             "tilejson": "3.0.0",
             "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
-            "bounds": [1.1, 1.2, 1.3]
+            "bounds": bounds
         ]
         
         let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONBounds, options: [])
