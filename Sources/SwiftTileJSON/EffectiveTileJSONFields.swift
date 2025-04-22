@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// A protocol that specifies fields that override missing or invalid TileJSON fields
+/// with their default values from the TileJSON spec.
 public protocol EffectiveTileJSONFields {
     /// The effective bounds with default applied if not specified.
     var effectiveBounds: TileJSON.Bounds { get }

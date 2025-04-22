@@ -7,7 +7,13 @@
 
 import Foundation
 
-/// A wrapper for handling arbitrary fields in a TileJSON object
+/// A wrapper for handling custom fields in the TileJSON spec.
+///
+/// Custom fields are at the same level in the encoded/decoded TileJSON, but they stored under the
+/// `customFields` property here to preserve a `TileJSON` object that conforms to `Equatable` and `Hashable`.
+///
+/// Access to the underlying `TileJSON` properties is available through the `TileJSONFields`
+/// protocol.
 public struct CustomFieldsTileJSON {
     /// The underlying `TileJSON` object
     public let tileJSON: TileJSON

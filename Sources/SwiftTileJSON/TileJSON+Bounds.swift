@@ -10,18 +10,19 @@ import Foundation
 public extension TileJSON {
     /// Structured representation of TileJSON `bounds`
     struct Bounds: Equatable, Hashable, Codable, Sendable {
-        /// The minimum longitude of the bounds
+        /// The minimum longitude (left side) of the bounds in degrees (-180...180)
         public let minLongitude: Double
         
-        /// The minimum latitude of the bounds
+        /// The minimum latitude (bottom side) of the bounds in degrees (-90...90)
         public let minLatitude: Double
         
-        /// The maximum longitude of the bounds
+        /// The minimum longitude (right side) of the bounds in degrees (-180...180)
         public let maxLongitude: Double
         
-        /// The maximum latitude of the bounds
+        /// The maximum latitude (top side) of the bounds in degrees (-90...90)
         public let maxLatitude: Double
         
+        /// Initialize a new `Bounds` object
         public init(minLongitude: Double, minLatitude: Double, maxLongitude: Double, maxLatitude: Double) {
             self.minLongitude = minLongitude
             self.minLatitude = minLatitude
@@ -29,6 +30,9 @@ public extension TileJSON {
             self.maxLatitude = maxLatitude
         }
         
+        /// Decode a `Bounds` object from a 4-element array.
+        ///
+        /// - Throws: `DecodingError` if the array does not have exactly 4 elements or the elements are outside of valid ranges.
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             
@@ -83,6 +87,7 @@ public extension TileJSON {
             }
         }
         
+        /// Encodes a `Bounds` object to a 4-element array
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.unkeyedContainer()
             try container.encode(minLongitude)

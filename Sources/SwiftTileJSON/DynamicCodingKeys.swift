@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// A structure used to decode key/value pairs dynamically
 struct DynamicCodingKeys: CodingKey {
     var stringValue: String
     var intValue: Int?

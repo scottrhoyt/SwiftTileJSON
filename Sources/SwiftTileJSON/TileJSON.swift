@@ -7,7 +7,8 @@
 
 import Foundation
 
-/// A Swift model for TileJSON 3.0.0 specification.
+/// A Swift model for [TileJSON 3.0.0 specification](https://github.com/mapbox/tilejson-spec/blob/master/3.0.0/example/osm.json).
+///
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
 public struct TileJSON: TileJSONFields, Equatable, Hashable {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
@@ -155,7 +156,6 @@ extension TileJSON: Codable {
         }
         
         // Decode OPTIONAL fields, ignoring if invalid.
-//        vectorLayers = try? container.decodeIfPresent([VectorLayer].self, forKey: .vectorLayers)
         bounds = try? container.decodeIfPresent(Bounds.self, forKey: .bounds)
         attribution = try? container.decodeIfPresent(String.self, forKey: .attribution)
         data = try? container.decodeIfPresent([String].self, forKey: .data)

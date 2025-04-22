@@ -53,6 +53,9 @@ public extension TileJSON {
         
         // MARK: Custom Decoding
         
+        /// Decodes a `VectorLayer` from a dictionary representation.
+        ///
+        /// - Throws: A `DecodingError` if the required `id` and `fields` properties are not present.
         public init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             
