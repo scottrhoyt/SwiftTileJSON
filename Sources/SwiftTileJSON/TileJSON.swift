@@ -133,6 +133,21 @@ extension TileJSON {
         static let latitudeRange: ClosedRange<Double> = -90...90
         static let longitudeRange: ClosedRange<Double> = -180...180
         
+        /// Validates major version 3.
+        static func tileJSONVersion(_ tileJSONVersion: String) -> Bool {
+            let versionParts = tileJSONVersion.split(separator: ".")
+            
+            if versionParts.count < 1 {
+                return false
+            }
+            
+            if let majorVersion = Int(versionParts[0]), majorVersion == 3 {
+                return true
+            }
+            
+            return false
+        }
+        
         /// Validates that zoom levels are between 0...30 and maxZoom >= minzoom.
         static func zoomLevels(minZoom: Int?, maxZoom: Int?) -> (minZoom: Int?, maxZoom: Int?) {
             var validatedMinZoom: Int?
@@ -209,7 +224,7 @@ extension TileJSON {
         tiles = try container.decode([String].self, forKey: .tiles)
         
         // Validate compatible TileJSON version
-        if TileJSON.isValid(tileJsonVersion: tileJSONVersion) == false {
+        guard Valid.tileJSONVersion(tileJSONVersion) else {
             throw DecodingError.typeMismatch(
                 String.self,
                 DecodingError.Context(
@@ -258,19 +273,5 @@ extension TileJSON {
             maxZoom: maxZoom,
             bounds: bounds
         )
-    }
-    
-    private static func isValid(tileJsonVersion: String) -> Bool {
-        let versionParts = tileJsonVersion.split(separator: ".")
-        
-        if versionParts.count < 1 {
-            return false
-        }
-        
-        if let majorVersion = Int(versionParts[0]), majorVersion == 3 {
-            return true
-        }
-        
-        return false
     }
 }
