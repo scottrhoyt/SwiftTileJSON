@@ -31,14 +31,14 @@ public protocol EffectiveTileJSONFields {
 }
 
 extension TileJSON: EffectiveTileJSONFields {
-    public struct Defaults {
-        public static let bounds = [-180, -85.05112877980659, 180, 85.0511287798066]
-        public static let maxZoom = 30
-        public static let minZoom = 0
-        public static let scheme = TileJSON.TileScheme.xyz
-        public static let version = "1.0.0"
-        public static let data = [String]()
-        public static let grids = [String]()
+    struct Defaults {
+        static let bounds = [-180, -85.05112877980659, 180, 85.0511287798066]
+        static let maxZoom = 30
+        static let minZoom = 0
+        static let scheme = TileJSON.TileScheme.xyz
+        static let version = "1.0.0"
+        static let data = [String]()
+        static let grids = [String]()
     }
     
     public var effectiveBounds: [Double] { bounds ?? Defaults.bounds }
