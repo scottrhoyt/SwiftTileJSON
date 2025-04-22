@@ -85,6 +85,49 @@ struct IgnoringInvalidValuesTests {
         #expect(tileJSON.bounds == nil)
     }
     
+    @Test(arguments: [-1, 31])
+    func invalidTileJSONMaxZoomIgnored(maxZoom: Double) {
+        let invalidTileJSONMaxZoom: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "maxzoom": maxZoom
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONMaxZoom, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.maxZoom == nil)
+    }
+    
+    @Test(arguments: [-1, 31])
+    func invalidTileJSONMinZoomIgnored(minZoom: Double) {
+        let invalidTileJSONMinZoom: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "minzoom": minZoom
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONMinZoom, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.minZoom == nil)
+    }
+    
+    @Test func invalidTileJSONMaxMinZoomIgnored() {
+        let invalidTileJSONZoomLevels: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "minzoom": 29,
+            "maxzoom": 1
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSONZoomLevels, options: [])
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.minZoom == nil)
+        #expect(tileJSON.maxZoom == nil)
+    }
+    
     @Test func invalidVectorLayersOptionalValuesIgnored() {
         let invalidVectorLayer: [String: Any] = [
             "id": "id",
