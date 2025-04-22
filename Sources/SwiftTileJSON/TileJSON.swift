@@ -9,7 +9,7 @@ import Foundation
 
 /// A Swift model for TileJSON 3.0.0 specification.
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
-public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
+public struct TileJSON: TileJSONFields, Equatable, Hashable {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
     public let tileJSONVersion: String
     
@@ -62,28 +62,6 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
     public let version: String?
-        
-    // MARK: CodingKeys
-    
-    internal enum CodingKeys: String, CodingKey, CaseIterable {
-        case tileJSONVersion = "tilejson"
-        case tiles
-        case vectorLayers = "vector_layers"
-        case attribution
-        case bounds
-        case center
-        case data
-        case description
-        case fillZoom = "fillzoom"
-        case grids
-        case legend
-        case maxZoom = "maxzoom"
-        case minZoom = "minzoom"
-        case name
-        case scheme
-        case template
-        case version
-    }
     
     public init(
         tilejson: String = "3.0.0",
@@ -124,9 +102,29 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
     }
 }
 
-// MARK: - Custom Decoding
+// MARK: - Custom Codable
 
-extension TileJSON {
+extension TileJSON: Codable {
+    enum CodingKeys: String, CodingKey, CaseIterable {
+        case tileJSONVersion = "tilejson"
+        case tiles
+        case vectorLayers = "vector_layers"
+        case attribution
+        case bounds
+        case center
+        case data
+        case description
+        case fillZoom = "fillzoom"
+        case grids
+        case legend
+        case maxZoom = "maxzoom"
+        case minZoom = "minzoom"
+        case name
+        case scheme
+        case template
+        case version
+    }
+    
     /// Custom initializer to validate TileJSON data during decoding
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
