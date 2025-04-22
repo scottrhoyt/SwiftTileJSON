@@ -127,6 +127,13 @@ public struct TileJSON: TileJSONFields, Codable, Equatable, Hashable {
 // MARK: - Custom Decoding
 
 extension TileJSON {
+    /// Validating ranges for TileJSON fields
+    struct Valid {
+        static let zoomRange: ClosedRange<Int> = 0...30
+        static let latitudeRange: ClosedRange<Double> = -90...90
+        static let longitudeRange: ClosedRange<Double> = -180...180
+    }
+    
     /// Custom initializer to validate TileJSON data during decoding
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -174,10 +181,10 @@ extension TileJSON {
         if
             let potentialBounds = try? container.decodeIfPresent([Double].self, forKey: .bounds),
             potentialBounds.count == 4 &&
-            (-180...180).contains(potentialBounds[0]) &&
-            (-90...90).contains(potentialBounds[1]) &&
-            (-180...180).contains(potentialBounds[2]) &&
-            (-90...90).contains(potentialBounds[3])
+            Valid.longitudeRange.contains(potentialBounds[0]) &&
+            Valid.latitudeRange.contains(potentialBounds[1]) &&
+            Valid.longitudeRange.contains(potentialBounds[2]) &&
+            Valid.latitudeRange.contains(potentialBounds[3])
         {
             bounds = potentialBounds
         } else {
@@ -265,16 +272,15 @@ extension TileJSON {
     
     /// Validates that zoom levels are between 0...30 and maxZoom >= minzoom.
     private static func validate(minZoom: Int?, maxZoom: Int?) -> (minZoom: Int?, maxZoom: Int?) {
-        let validZoomRange: ClosedRange<Int> = 0...30
         var validatedMinZoom: Int?
         var validatedMaxZoom: Int?
         
         if let minZoom = minZoom {
-            validatedMinZoom = validZoomRange.contains(minZoom) ? minZoom : nil
+            validatedMinZoom = Valid.zoomRange.contains(minZoom) ? minZoom : nil
         }
         
         if let maxZoom = maxZoom {
-            validatedMaxZoom = validZoomRange.contains(maxZoom) ? maxZoom : nil
+            validatedMaxZoom = Valid.zoomRange.contains(maxZoom) ? maxZoom : nil
         }
         
         if let validatedMinZoom = validatedMinZoom, let validatedMaxZoom = validatedMaxZoom, validatedMinZoom > validatedMaxZoom {
