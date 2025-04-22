@@ -1,6 +1,7 @@
 #  Change Log
 
 ## `master`
+* Lower required `swift-tools-version` to 5.10
 
 ## 0.1.1
 * Add more documentation
