@@ -128,4 +128,20 @@ struct ValidationTests {
             }
         })
     }
+    
+    @Test func validCenterDecodes() {
+        let validTileJSON: [String: Any] = [
+            "tilejson": "3.0.0",
+            "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"],
+            "minzoom": 4,
+            "maxzoom": 12,
+            "bounds": [-100, -50, 100, 50],
+            "center": [-20, 20, 7]
+        ]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: validTileJSON)
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        
+        #expect(tileJSON.center == [-20, 20, 7])
+    }
 }
