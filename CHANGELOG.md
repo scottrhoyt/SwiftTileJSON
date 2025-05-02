@@ -1,6 +1,7 @@
 # Change Log
 
 ## `main`
+* Improve `TileJSON.extendedFields` encoding errors.
 
 ## 0.4.0
 * Constrain `extendedFields` initialization to be `Encodable`.

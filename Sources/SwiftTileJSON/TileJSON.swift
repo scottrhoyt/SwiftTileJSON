@@ -67,11 +67,22 @@ extension TileJSON: Codable {
         
         if extendedFields.isEmpty == false {
             var dynamicContainer = encoder.container(keyedBy: DynamicCodingKeys.self)
-            for (key, value) in extendedFields {
-                if let encodableValue = value as? Encodable {
-                    try dynamicContainer.encode(encodableValue, forKey: DynamicCodingKeys(stringValue: key)!)
-                }
-            }
+            try extendedFields.forEach { try dynamicContainer.encode($0.value, forKey: $0.key) }
         }
+    }
+}
+
+fileprivate extension KeyedEncodingContainer where Key == DynamicCodingKeys {
+    mutating func encode(_ value: Any?, forKey key: String) throws {
+        guard let value = value as? Encodable else {
+            throw EncodingError.invalidValue(
+                value ?? NSNull(),
+                EncodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "Value is not Encodable.")
+            )
+        }
+        
+        try self.encode(value, forKey: .init(stringValue: key))
     }
 }

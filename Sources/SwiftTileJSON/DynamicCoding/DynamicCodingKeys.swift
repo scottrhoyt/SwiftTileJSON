@@ -12,11 +12,11 @@ struct DynamicCodingKeys: CodingKey {
     var stringValue: String
     var intValue: Int?
     
-    init?(stringValue: String) {
+    init(stringValue: String) {
         self.stringValue = stringValue
     }
     
-    init?(intValue: Int) {
+    init(intValue: Int) {
         self.stringValue = "\(intValue)"
         self.intValue = intValue
     }
