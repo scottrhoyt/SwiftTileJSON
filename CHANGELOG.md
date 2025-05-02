@@ -1,4 +1,4 @@
-#  Change Log
+# Change Log
 
 ## `main`
 * Make `extendedFields` default to empty instead of `nil`.
