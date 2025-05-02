@@ -28,7 +28,7 @@ struct EffectiveValuesTests {
         #expect(tileJSON.effectiveGrids == TileJSON.Defaults.grids)
     }
     
-    @Test func customFieldsTileJSONeffectiveValues() {
+    @Test func extendedFieldsTileJSONeffectiveValues() {
         let validTileJSON: [String: Any] = [
             "tilejson": "3.0.0",
             "tiles": ["http://a.tileserver.org/{z}/{x}/{y}"]

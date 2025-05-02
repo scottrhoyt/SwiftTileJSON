@@ -20,18 +20,18 @@ print(tileJSON.center?.zoom)
 
 ## Custom Fields Handling
 
-The TileJSON 3.0 spec requires that all implementations provide access to custom key/value pairs that are included in the object, but not covered in the spec. Adding the custom fields directly to the `TileJSON` struct (e.g. as a `[String: Any]`) would break useful `Equatable` and `Hashable` conformances. The solution in this library is to have `TileJSON` ignore custom fields, and to provide a `Codable` wrapper, `ExtendedTileJSON`, that can be used to when you want to work with custom fields. To use this functionality simply decode with the `ExtendedTileJSON` instead of `TileJSON` and you will have access to both the underlying `TileJSON` and the `customFields` values.
+The TileJSON 3.0 spec requires that all implementations provide access to custom key/value pairs that are included in the object, but not covered in the spec. Adding the custom fields directly to the `TileJSON` struct (e.g. as a `[String: Any]`) would break useful `Equatable` and `Hashable` conformances. The solution in this library is to have `TileJSON` ignore custom fields, and to provide a `Codable` wrapper, `ExtendedTileJSON`, that can be used to when you want to work with custom fields. To use this functionality simply decode with the `ExtendedTileJSON` instead of `TileJSON` and you will have access to both the underlying `TileJSON` and the `extendedFields` values.
 
 To improve the ergonomics of using `ExtendedTileJSON`s and `TileJSON`s together, both conform to the `TileJSONFields` protocol.
 
 ```swift
-let tileJSONWithCustomFields = try JSONDecoder().decode(ExtendedTileJSON.self, from: tileJSONData)
-let underlyingTileJSON = tileJSONWithCustomFields.tileJSON
-let customFields = tileJSONWithCustomFields.customFields
+let tileJSONWithExtendedFields = try JSONDecoder().decode(ExtendedTileJSON.self, from: tileJSONData)
+let underlyingTileJSON = tileJSONWithExtendedFields.tileJSON
+let extendedFields = tileJSONWithExtendedFields.extendedFields
 
 // You can still utilize the underlying fields
-print(tileJSONWithCustomFields.name)
-print(tileJSONWithCustomFields.description)
+print(tileJSONWithExtendedFields.name)
+print(tileJSONWithExtendedFields.description)
 ```
 
 ## Default Values

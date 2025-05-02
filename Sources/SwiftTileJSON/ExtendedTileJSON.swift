@@ -10,7 +10,7 @@ import Foundation
 /// A wrapper for handling custom fields in the TileJSON spec.
 ///
 /// Custom fields are at the same level in the encoded/decoded TileJSON, but they stored under the
-/// `customFields` property here to preserve a `TileJSON` object that conforms to `Equatable` and `Hashable`.
+/// `extendedFields` property here to preserve a `TileJSON` object that conforms to `Equatable` and `Hashable`.
 ///
 /// Access to the underlying `TileJSON` properties is available through the `TileJSONFields`
 /// protocol.
@@ -19,15 +19,15 @@ public struct ExtendedTileJSON {
     public let tileJSON: TileJSON
     
     /// Additional fields not handled by the TileJSON spec
-    public let customFields: [String: Any]?
+    public let extendedFields: [String: Any]?
     
     /// Create a new `ExtendedFieldsTileJSON` object
     /// - Parameters:
     ///   - tileJSON: The object conforming to the TileJSON 3.0 spec
-    ///   - customFields: A dictionary of custom fields for encoding/decoding. `nil` by default.
-    public init(tileJSON: TileJSON, customFields: [String: Any]? = nil) {
+    ///   - extendedFields: A dictionary of custom fields for encoding/decoding. `nil` by default.
+    public init(tileJSON: TileJSON, extendedFields: [String: Any]? = nil) {
         self.tileJSON = tileJSON
-        self.customFields = customFields
+        self.extendedFields = extendedFields
     }
 }
 
@@ -62,15 +62,15 @@ extension ExtendedTileJSON: Codable {
         // Decode custom fields
         let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
         let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
-        customFields = unusedEntries.isEmpty ? nil : unusedEntries
+        extendedFields = unusedEntries.isEmpty ? nil : unusedEntries
     }
         
     public func encode(to encoder: any Encoder) throws {
         try tileJSON.encode(to: encoder)
         
-        if let customFields = customFields {
+        if let extendedFields = extendedFields {
             var dynamicContainer = encoder.container(keyedBy: DynamicCodingKeys.self)
-            for (key, value) in customFields {
+            for (key, value) in extendedFields {
                 if let encodableValue = value as? Encodable {
                     try dynamicContainer.encode(encodableValue, forKey: DynamicCodingKeys(stringValue: key)!)
                 }
