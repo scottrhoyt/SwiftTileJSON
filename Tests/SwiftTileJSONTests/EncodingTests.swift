@@ -12,7 +12,7 @@ import Testing
 struct EncodingTests {
     @Test func extendedFieldsEncoding() {
         let tileJSON = TileJSON(tiles: ["http://a.tileserver.org/{z}/{x}/{y}"])
-        let extendedFields: [String: Any] = [
+        let extendedFields: [String: ExtendedField] = [
             "something_custom": "this is my unique field",
             "another_custom": 42
         ]

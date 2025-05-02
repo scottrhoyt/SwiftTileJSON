@@ -9,7 +9,7 @@ import Foundation
 
 public extension TileJSON {
     /// Describes one layer of vector tile data
-    struct VectorLayer: Codable, Equatable, Hashable {
+    struct VectorLayer: Codable, Equatable, Hashable, Sendable {
         /// REQUIRED. A string value representing the layer id.
         public let id: String
         

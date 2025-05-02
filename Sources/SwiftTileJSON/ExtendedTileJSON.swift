@@ -8,6 +8,8 @@
 import Foundation
 import Version
 
+public typealias ExtendedField = any Sendable
+
 /// A wrapper for handling custom fields in the TileJSON spec.
 ///
 /// Custom fields are at the same level in the encoded/decoded TileJSON, but they stored under the
@@ -15,18 +17,18 @@ import Version
 ///
 /// Access to the underlying `TileJSON` properties is available through the `TileJSONFields`
 /// protocol.
-public struct ExtendedTileJSON {
+public struct ExtendedTileJSON: Sendable {
     /// The underlying `TileJSON` object
     public let tileJSON: TileJSON
     
     /// Additional fields not handled by the TileJSON spec
-    public let extendedFields: [String: Any]
+    public let extendedFields: [String: ExtendedField]
     
     /// Create a new `ExtendedFieldsTileJSON` object
     /// - Parameters:
     ///   - tileJSON: The object conforming to the TileJSON 3.0 spec
     ///   - extendedFields: A dictionary of custom fields for encoding/decoding. Empty by default.
-    public init(tileJSON: TileJSON, extendedFields: [String: Any] = [:]) {
+    public init(tileJSON: TileJSON, extendedFields: [String: ExtendedField] = [:]) {
         self.tileJSON = tileJSON
         self.extendedFields = extendedFields
     }
