@@ -35,7 +35,7 @@ struct EffectiveValuesTests {
         ]
 
         let jsonData = try! JSONSerialization.data(withJSONObject: validTileJSON)
-        let tileJSON = try! JSONDecoder().decode(ExtendedTileJSON.self, from: jsonData)
+        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
         
         #expect(tileJSON.effectiveBounds == TileJSON.Defaults.bounds)
         #expect(tileJSON.effectiveMaxZoom == TileJSON.Defaults.maxZoom)

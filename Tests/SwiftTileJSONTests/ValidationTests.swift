@@ -24,7 +24,7 @@ struct ValidationTests {
             guard let error = error as? DecodingError else { return false }
             switch error {
             case .keyNotFound(let codingKey, _):
-                return codingKey.stringValue == TileJSON.CodingKeys.tileJSONVersion.stringValue
+                return codingKey.stringValue == TileJSON.Base.CodingKeys.tileJSONVersion.stringValue
             default:
                 return false
             }
@@ -44,7 +44,7 @@ struct ValidationTests {
             guard let error = error as? DecodingError else { return false }
             switch error {
             case .keyNotFound(let codingKey, _):
-                return codingKey.stringValue == TileJSON.CodingKeys.tiles.stringValue
+                return codingKey.stringValue == TileJSON.Base.CodingKeys.tiles.stringValue
             default:
                 return false
             }

@@ -20,18 +20,22 @@ print(tileJSON.center?.zoom)
 
 ## Custom Fields Handling
 
-The TileJSON 3.0 spec requires that all implementations provide access to custom key/value pairs that are included in the object, but not covered in the spec. Adding the custom fields directly to the `TileJSON` struct (e.g. as a `[String: Any]`) would break useful `Equatable` and `Hashable` conformances. The solution in this library is to have `TileJSON` ignore custom fields, and to provide a `Codable` wrapper, `ExtendedTileJSON`, that can be used to when you want to work with custom fields. To use this functionality simply decode with the `ExtendedTileJSON` instead of `TileJSON` and you will have access to both the underlying `TileJSON` and the `extendedFields` values.
+The TileJSON 3.0 spec requires that all implementations provide access to custom key/value pairs that are included in the object, but not covered in the spec. The `TileJSON` object provides the `base` fields of the spec in a nested struct that preserves `Equatable` and `Hashable` conformance. Any additional fields are captured in the `extendedFields` property. `TileJSON.Base` can be used directly to encode/decode when `extendedFields` are not needed.
 
-To improve the ergonomics of using `ExtendedTileJSON`s and `TileJSON`s together, both conform to the `TileJSONFields` protocol.
+To improve the ergonomics of using `TileJSON`s and `TileJSON.Base`s together, both conform to the `TileJSONFields` protocol.
 
 ```swift
-let tileJSONWithExtendedFields = try JSONDecoder().decode(ExtendedTileJSON.self, from: tileJSONData)
-let underlyingTileJSON = tileJSONWithExtendedFields.tileJSON
-let extendedFields = tileJSONWithExtendedFields.extendedFields
+let tileJSON = try JSONDecoder().decode(TileJSON.self, from: tileJSONData)
+let baseFields = tileJSON.base
+let extendedFields = tileJSON.extendedFields
 
-// You can still utilize the underlying fields
-print(tileJSONWithExtendedFields.name)
-print(tileJSONWithExtendedFields.description)
+// You can utilize all base fields from either struct
+print(tileJSON.name)
+print(tileJSON.base.description)
+
+// The underlying `TileJSON.Base` struct maintains `Equatable` and `Hashable` conformance.
+let tileJSONBase = try JSONDecoder().decode(TileJSON.Base.self, from: tileJSONData)
+assert(tileJSONBase == tileJSON.base)
 ```
 
 ## Default Values
