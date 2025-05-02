@@ -1,6 +1,8 @@
 #  Change Log
 
 ## `main`
+
+## 0.2.0
 * Fix `TileJSON` init parameters
 * Rename `CustomFieldsTileJSON` to `ExtendedTileJSON`
 * Rename `ExtendedTileJSON.customFields` to `extendedFields`.
