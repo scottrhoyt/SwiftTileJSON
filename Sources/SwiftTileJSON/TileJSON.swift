@@ -10,7 +10,7 @@ import Foundation
 /// A Swift model for [TileJSON 3.0.0 specification](https://github.com/mapbox/tilejson-spec/blob/master/3.0.0/example/osm.json).
 ///
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
-public struct TileJSON: TileJSONFields, Equatable, Hashable {
+public struct TileJSON: TileJSONFields, EffectiveTileJSONFields, Equatable, Hashable {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
     public let tileJSONVersion: String
     

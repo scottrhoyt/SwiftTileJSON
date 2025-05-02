@@ -9,7 +9,7 @@ import Foundation
 
 /// A protocol that specifies fields that override missing or invalid TileJSON fields
 /// with their default values from the TileJSON spec.
-public protocol EffectiveTileJSONFields {
+public protocol EffectiveTileJSONFields: TileJSONFields {
     /// The effective bounds with default applied if not specified.
     var effectiveBounds: TileJSON.Bounds { get }
     
@@ -32,7 +32,7 @@ public protocol EffectiveTileJSONFields {
     var effectiveGrids: [String] { get }
 }
 
-extension TileJSON: EffectiveTileJSONFields {
+extension TileJSON {
     struct Defaults {
         static let bounds = Bounds(
             minLongitude: -180,
@@ -47,22 +47,14 @@ extension TileJSON: EffectiveTileJSONFields {
         static let data = [String]()
         static let grids = [String]()
     }
-    
-    public var effectiveBounds: Bounds { bounds ?? Defaults.bounds }
-    public var effectiveMaxZoom: Int { maxZoom ?? Defaults.maxZoom }
-    public var effectiveMinZoom: Int { minZoom ?? Defaults.minZoom }
-    public var effectiveScheme: TileScheme { scheme ?? Defaults.scheme }
-    public var effectiveVersion: String { version ?? Defaults.version }
-    public var effectiveData: [String] { data ?? Defaults.data }
-    public var effectiveGrids: [String] { grids ?? Defaults.grids }
 }
 
-extension ExtendedTileJSON: EffectiveTileJSONFields {
-    public var effectiveBounds: TileJSON.Bounds { tileJSON.bounds ?? TileJSON.Defaults.bounds }
-    public var effectiveMaxZoom: Int { tileJSON.maxZoom ?? TileJSON.Defaults.maxZoom }
-    public var effectiveMinZoom: Int { tileJSON.minZoom ?? TileJSON.Defaults.minZoom }
-    public var effectiveScheme: TileJSON.TileScheme { tileJSON.scheme ?? TileJSON.Defaults.scheme }
-    public var effectiveVersion: String { tileJSON.version ?? TileJSON.Defaults.version }
-    public var effectiveData: [String] { tileJSON.data ?? TileJSON.Defaults.data }
-    public var effectiveGrids: [String] { tileJSON.grids ?? TileJSON.Defaults.grids }
+extension EffectiveTileJSONFields {
+    public var effectiveBounds: TileJSON.Bounds { bounds ?? TileJSON.Defaults.bounds }
+    public var effectiveMaxZoom: Int { maxZoom ?? TileJSON.Defaults.maxZoom }
+    public var effectiveMinZoom: Int { minZoom ?? TileJSON.Defaults.minZoom }
+    public var effectiveScheme: TileJSON.TileScheme { scheme ?? TileJSON.Defaults.scheme }
+    public var effectiveVersion: String { version ?? TileJSON.Defaults.version }
+    public var effectiveData: [String] { data ?? TileJSON.Defaults.data }
+    public var effectiveGrids: [String] { grids ?? TileJSON.Defaults.grids }
 }
