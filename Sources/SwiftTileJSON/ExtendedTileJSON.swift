@@ -19,13 +19,13 @@ public struct ExtendedTileJSON {
     public let tileJSON: TileJSON
     
     /// Additional fields not handled by the TileJSON spec
-    public let extendedFields: [String: Any]?
+    public let extendedFields: [String: Any]
     
     /// Create a new `ExtendedFieldsTileJSON` object
     /// - Parameters:
     ///   - tileJSON: The object conforming to the TileJSON 3.0 spec
-    ///   - extendedFields: A dictionary of custom fields for encoding/decoding. `nil` by default.
-    public init(tileJSON: TileJSON, extendedFields: [String: Any]? = nil) {
+    ///   - extendedFields: A dictionary of custom fields for encoding/decoding. Empty by default.
+    public init(tileJSON: TileJSON, extendedFields: [String: Any] = [:]) {
         self.tileJSON = tileJSON
         self.extendedFields = extendedFields
     }
@@ -61,14 +61,13 @@ extension ExtendedTileJSON: Codable {
         
         // Decode custom fields
         let dynamicContainer = try decoder.container(keyedBy: DynamicCodingKeys.self)
-        let unusedEntries = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
-        extendedFields = unusedEntries.isEmpty ? nil : unusedEntries
+        extendedFields = try dynamicContainer.decode(filteringKeys: TileJSON.CodingKeys.allCases)
     }
         
     public func encode(to encoder: any Encoder) throws {
         try tileJSON.encode(to: encoder)
         
-        if let extendedFields = extendedFields {
+        if extendedFields.isEmpty == false {
             var dynamicContainer = encoder.container(keyedBy: DynamicCodingKeys.self)
             for (key, value) in extendedFields {
                 if let encodableValue = value as? Encodable {

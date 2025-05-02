@@ -1,6 +1,7 @@
 #  Change Log
 
 ## `main`
+* Make `extendedFields` default to empty instead of `nil`.
 
 ## 0.2.0
 * Fix `TileJSON` init parameters
