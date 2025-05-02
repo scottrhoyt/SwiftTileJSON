@@ -1,6 +1,8 @@
 # Change Log
 
 ## `main`
+
+## 0.3.0
 * Make `extendedFields` default to empty instead of `nil`.
 * Use `Version` type to represent SemVers instead of Strings.
 * Make types `Sendable`.
