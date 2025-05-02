@@ -61,4 +61,39 @@ public protocol TileJSONFields {
     
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
     var version: String? { get }
+    
+    // MARK: Effective Fields
+    
+    /// The effective bounds with default applied if not specified.
+    var effectiveBounds: TileJSON.Bounds { get }
+    
+    /// The effective maximum zoom level with default applied if not specified.
+    var effectiveMaxZoom: Int { get }
+    
+    /// The effective minimum zoom level with default applied if not specified.
+    var effectiveMinZoom: Int { get }
+    
+    /// The effective tile schema with default applied if not specified.
+    var effectiveScheme: TileJSON.TileScheme { get }
+    
+    /// The effective version with default applied if not specified.
+    var effectiveVersion: String { get }
+    
+    /// The effective data array with default applied if not specified.
+    var effectiveData: [String] { get }
+    
+    /// The effective grids array with default applied if not specified.
+    var effectiveGrids: [String] { get }
+}
+
+// MARK: - Default effective fields implementation
+
+extension TileJSONFields {
+    public var effectiveBounds: TileJSON.Bounds { bounds ?? TileJSON.Defaults.bounds }
+    public var effectiveMaxZoom: Int { maxZoom ?? TileJSON.Defaults.maxZoom }
+    public var effectiveMinZoom: Int { minZoom ?? TileJSON.Defaults.minZoom }
+    public var effectiveScheme: TileJSON.TileScheme { scheme ?? TileJSON.Defaults.scheme }
+    public var effectiveVersion: String { version ?? TileJSON.Defaults.version }
+    public var effectiveData: [String] { data ?? TileJSON.Defaults.data }
+    public var effectiveGrids: [String] { grids ?? TileJSON.Defaults.grids }
 }

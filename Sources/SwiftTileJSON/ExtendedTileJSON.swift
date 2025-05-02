@@ -33,7 +33,7 @@ public struct ExtendedTileJSON {
 
 // MARK: - TileJSONFields
 
-extension ExtendedTileJSON: TileJSONFields, EffectiveTileJSONFields {
+extension ExtendedTileJSON: TileJSONFields {
     public var tileJSONVersion: String { tileJSON.tileJSONVersion }
     public var tiles: [String] { tileJSON.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }

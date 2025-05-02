@@ -36,7 +36,7 @@ print(tileJSONWithExtendedFields.description)
 
 ## Default Values
 
-The TileJSON 3.0 spec states that implementations MAY use default values for certain fields where they are not provided or invalid. In some use cases, it is useful to have access to the default values and to know when the original values were either not provided or invalid. To implement this, the `TileJSON` object contains `nil` values where fields were not provided or invalid, and the `EffectiveTileJSONFields` protocol defines access to properties that are overriden with their default values in the case of a `nil` decoded value. These fields are named with the pattern `effectiveFieldName`.
+The TileJSON 3.0 spec states that implementations MAY use default values for certain fields where they are not provided or invalid. In some use cases, it is useful to have access to the default values and to know when the original values were either not provided or invalid. To implement this, the `TileJSON` object contains `nil` values where fields were not provided or invalid, and the `TileJSONFields` protocol defines access to properties that are overriden with their default values in the case of a `nil` decoded value. These fields are named with the pattern `effectiveFieldName`.
 
 ```swift
 let tileJSON = try JSONDecoder().decode(TileJSON.self, from: tileJSONData)
