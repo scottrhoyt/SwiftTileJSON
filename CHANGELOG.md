@@ -5,6 +5,8 @@
 * Refactor `TileJSON` type to include extended fields and a `Base` object with the base fields. Remove `ExtendedTileJSON`.
 * Rename `tileJSONVersion` to `tileJSON`.
 * Reorganize.
+* Clean up Documentation.
+* Rename `TileJSON.Valid.tileJSONVersion` to `tileJSON`.
 
 ## 0.3.0
 * Make `extendedFields` default to empty instead of `nil`.

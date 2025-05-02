@@ -100,7 +100,7 @@ extension TileJSON {
             tiles = try container.decode([String].self, forKey: .tiles)
             
             // Validate compatible TileJSON version
-            guard Valid.tileJSONVersion(tileJSON) else {
+            guard Valid.tileJSON(tileJSON) else {
                 throw DecodingError.typeMismatch(
                     String.self,
                     DecodingError.Context(

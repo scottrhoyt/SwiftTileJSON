@@ -16,8 +16,8 @@ extension TileJSON {
         static let longitudeRange: ClosedRange<Double> = -180...180
         
         /// Validates major version 3.
-        static func tileJSONVersion(_ tileJSONVersion: Version) -> Bool {
-            return tileJSONVersion.major == 3
+        static func tileJSON(_ tileJSON: Version) -> Bool {
+            return tileJSON.major == 3
         }
         
         /// Validates that zoom levels are between 0...30 and maxZoom >= minzoom.
