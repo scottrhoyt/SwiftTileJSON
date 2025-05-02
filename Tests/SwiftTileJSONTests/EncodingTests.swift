@@ -17,7 +17,8 @@ struct EncodingTests {
             ),
             extendedFields: [
                 "something_custom": "this is my unique field",
-                "another_custom": 42
+                "another_custom": 42,
+                "custom_dict": ["a": 1, "b": 2]
             ]
         )
         
@@ -26,5 +27,6 @@ struct EncodingTests {
         
         #expect(decoded["something_custom"] as? String == "this is my unique field")
         #expect(decoded["another_custom"] as? Int == 42)
+        #expect(decoded["custom_dict"] as? [String: Int] == ["a": 1, "b": 2])
     }
 }

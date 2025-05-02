@@ -8,9 +8,9 @@
 import Foundation
 
 internal extension KeyedDecodingContainer {
-    func decode(filteringKeys: [CodingKey] = []) throws -> [String: Sendable] {
+    func decode(filteringKeys: [CodingKey] = []) throws -> [String: ExtendedField] {
         let fileringKeyStrings = filteringKeys.map(\.stringValue)
-        var dictionary: [String: Sendable] = [:]
+        var dictionary: [String: ExtendedField] = [:]
         
         for key in allKeys where !fileringKeyStrings.contains(key.stringValue) {
             if let value = try? decode(String.self, forKey: key) {
@@ -22,9 +22,9 @@ internal extension KeyedDecodingContainer {
             } else if let value = try? decode(Bool.self, forKey: key) {
                 dictionary[key.stringValue] = value
             } else if let container = try? nestedContainer(keyedBy: DynamicCodingKeys.self, forKey: key) {
-                dictionary[key.stringValue] = try container.decode()
+                dictionary[key.stringValue] = (try container.decode() as! any ExtendedField)
             } else if var container = try? nestedUnkeyedContainer(forKey: key) {
-                dictionary[key.stringValue] = try decodeArray(from: &container)
+                dictionary[key.stringValue] = (try decodeArray(from: &container) as! any ExtendedField)
             } else {
                 dictionary[key.stringValue] = nil
             }
@@ -33,8 +33,8 @@ internal extension KeyedDecodingContainer {
         return dictionary
     }
     
-    private func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [Sendable] {
-        var array: [Sendable] = []
+    private func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [ExtendedField] {
+        var array: [ExtendedField] = []
         
         while !container.isAtEnd {
             if let value = try? container.decode(String.self) {
@@ -46,11 +46,11 @@ internal extension KeyedDecodingContainer {
             } else if let value = try? container.decode(Bool.self) {
                 array.append(value)
             } else if let container = try? container.nestedContainer(keyedBy: DynamicCodingKeys.self) {
-                array.append(try container.decode())
+                array.append(try container.decode() as! ExtendedField)
             } else if var container = try? container.nestedUnkeyedContainer() {
-                array.append(try decodeArray(from: &container))
+                array.append(try decodeArray(from: &container) as! ExtendedField)
             } else {
-                array.append(NSNull())
+                array.append("null")
             }
         }
         

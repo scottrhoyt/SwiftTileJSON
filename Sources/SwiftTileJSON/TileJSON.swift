@@ -17,7 +17,7 @@ public struct TileJSON: Sendable {
     public let base: Base
     
     /// Additional fields not handled by the TileJSON spec
-    public let extendedFields: [String: Sendable]
+    public let extendedFields: [String: ExtendedField]
     
     /// Create a new `TileJSON` object
     /// - Parameters:
