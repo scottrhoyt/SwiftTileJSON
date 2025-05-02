@@ -24,7 +24,7 @@ struct ValidationTests {
             guard let error = error as? DecodingError else { return false }
             switch error {
             case .keyNotFound(let codingKey, _):
-                return codingKey.stringValue == TileJSON.Base.CodingKeys.tileJSONVersion.stringValue
+                return codingKey.stringValue == TileJSON.Base.CodingKeys.tileJSON.stringValue
             default:
                 return false
             }
@@ -97,7 +97,7 @@ struct ValidationTests {
         decoder.userInfo[.decodingMethod] = DecodingMethod.tolerant
         let tileJSON = try! decoder.decode(TileJSON.self, from: jsonData)
         
-        #expect(tileJSON.tileJSONVersion == Version(tolerant: versionString)!)
+        #expect(tileJSON.tileJSON == Version(tolerant: versionString)!)
     }
     
     @Test(

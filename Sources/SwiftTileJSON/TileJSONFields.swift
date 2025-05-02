@@ -11,7 +11,7 @@ import Version
 /// A protocol representing the required and optional fields of the TileJSON 3.0 spec.
 public protocol TileJSONFields {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
-    var tileJSONVersion: Version { get }
+    var tileJSON: Version { get }
     
     /// REQUIRED. An array of tile endpoints. Must contain at least one endpoint.
     var tiles: [String] { get }

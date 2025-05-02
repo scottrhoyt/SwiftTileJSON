@@ -32,7 +32,7 @@ public struct TileJSON: Sendable {
 // MARK: - TileJSONFields
 
 extension TileJSON: TileJSONFields {
-    public var tileJSONVersion: Version { base.tileJSONVersion }
+    public var tileJSON: Version { base.tileJSON }
     public var tiles: [String] { base.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { base.vectorLayers }
     public var attribution: String? { base.attribution }
