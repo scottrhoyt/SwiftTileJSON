@@ -1,6 +1,7 @@
 # Change Log
 
 ## `main`
+* Constrain `extendedFields` initialization to be `Encodable`.
 
 ## 0.3.0
 * Make `extendedFields` default to empty instead of `nil`.

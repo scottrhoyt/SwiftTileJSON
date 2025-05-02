@@ -8,9 +8,9 @@
 import Foundation
 
 internal extension KeyedDecodingContainer {
-    func decode(filteringKeys: [CodingKey] = []) throws -> [String: ExtendedField] {
+    func decode(filteringKeys: [CodingKey] = []) throws -> [String: Sendable] {
         let fileringKeyStrings = filteringKeys.map(\.stringValue)
-        var dictionary: [String: ExtendedField] = [:]
+        var dictionary: [String: Sendable] = [:]
         
         for key in allKeys where !fileringKeyStrings.contains(key.stringValue) {
             if let value = try? decode(String.self, forKey: key) {
@@ -33,8 +33,8 @@ internal extension KeyedDecodingContainer {
         return dictionary
     }
     
-    private func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [ExtendedField] {
-        var array: [ExtendedField] = []
+    private func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [Sendable] {
+        var array: [Sendable] = []
         
         while !container.isAtEnd {
             if let value = try? container.decode(String.self) {

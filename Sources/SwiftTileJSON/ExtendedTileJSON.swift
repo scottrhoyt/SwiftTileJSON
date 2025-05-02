@@ -8,7 +8,7 @@
 import Foundation
 import Version
 
-public typealias ExtendedField = any Sendable
+public typealias ExtendedField = Sendable & Encodable
 
 /// A wrapper for handling custom fields in the TileJSON spec.
 ///
@@ -22,7 +22,7 @@ public struct ExtendedTileJSON: Sendable {
     public let tileJSON: TileJSON
     
     /// Additional fields not handled by the TileJSON spec
-    public let extendedFields: [String: ExtendedField]
+    public let extendedFields: [String: Sendable]
     
     /// Create a new `ExtendedFieldsTileJSON` object
     /// - Parameters:
