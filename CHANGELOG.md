@@ -1,6 +1,8 @@
 # Change Log
 
 ## `main`
+
+## 0.4.0
 * Constrain `extendedFields` initialization to be `Encodable`.
 * Refactor `TileJSON` type to include extended fields and a `Base` object with the base fields. Remove `ExtendedTileJSON`.
 * Rename `tileJSONVersion` to `tileJSON`.
