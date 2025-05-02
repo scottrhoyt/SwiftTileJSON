@@ -16,9 +16,9 @@ struct EncodingTests {
             "something_custom": "this is my unique field",
             "another_custom": 42
         ]
-        let customFieldsTileJSON = CustomFieldsTileJSON(tileJSON: tileJSON, customFields: customFields)
+        let extendedTileJSON = ExtendedTileJSON(tileJSON: tileJSON, customFields: customFields)
         
-        let jsonData = try! JSONEncoder().encode(customFieldsTileJSON)
+        let jsonData = try! JSONEncoder().encode(extendedTileJSON)
         let decoded = try! JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: Any]
         
         #expect(decoded["something_custom"] as? String == "this is my unique field")

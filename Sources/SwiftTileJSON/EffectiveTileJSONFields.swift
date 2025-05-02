@@ -57,7 +57,7 @@ extension TileJSON: EffectiveTileJSONFields {
     public var effectiveGrids: [String] { grids ?? Defaults.grids }
 }
 
-extension CustomFieldsTileJSON: EffectiveTileJSONFields {
+extension ExtendedTileJSON: EffectiveTileJSONFields {
     public var effectiveBounds: TileJSON.Bounds { tileJSON.bounds ?? TileJSON.Defaults.bounds }
     public var effectiveMaxZoom: Int { tileJSON.maxZoom ?? TileJSON.Defaults.maxZoom }
     public var effectiveMinZoom: Int { tileJSON.minZoom ?? TileJSON.Defaults.minZoom }

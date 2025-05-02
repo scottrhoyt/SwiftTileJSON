@@ -2,6 +2,7 @@
 
 ## `main`
 * Fix `TileJSON` init parameters
+* Rename `CustomFieldsTileJSON` to `ExtendedTileJSON`
 
 ## 0.1.1
 * Add more documentation

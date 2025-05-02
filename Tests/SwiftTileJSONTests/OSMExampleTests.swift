@@ -17,7 +17,7 @@ struct OSMExampleTests {
     }
     
     @Test func osmExampleCustomFields() {
-        let tileJSON = try! JSONDecoder().decode(CustomFieldsTileJSON.self, from: TestData.fromFile("osm")!)
+        let tileJSON = try! JSONDecoder().decode(ExtendedTileJSON.self, from: TestData.fromFile("osm")!)
         
         #expect(tileJSON.customFields?["something_custom"] as? String == "this is my unique field")
     }

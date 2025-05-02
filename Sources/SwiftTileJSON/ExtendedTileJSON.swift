@@ -1,5 +1,5 @@
 //
-//  CustomFieldsTileJSON.swift
+//  ExtendedTileJSON.swift
 //  SwiftTileJSON
 //
 //  Created by Scott Hoyt on 4/21/25.
@@ -14,14 +14,14 @@ import Foundation
 ///
 /// Access to the underlying `TileJSON` properties is available through the `TileJSONFields`
 /// protocol.
-public struct CustomFieldsTileJSON {
+public struct ExtendedTileJSON {
     /// The underlying `TileJSON` object
     public let tileJSON: TileJSON
     
     /// Additional fields not handled by the TileJSON spec
     public let customFields: [String: Any]?
     
-    /// Create a new `CustomFieldsTileJSON` object
+    /// Create a new `ExtendedFieldsTileJSON` object
     /// - Parameters:
     ///   - tileJSON: The object conforming to the TileJSON 3.0 spec
     ///   - customFields: A dictionary of custom fields for encoding/decoding. `nil` by default.
@@ -33,7 +33,7 @@ public struct CustomFieldsTileJSON {
 
 // MARK: - TileJSONFields
 
-extension CustomFieldsTileJSON: TileJSONFields {
+extension ExtendedTileJSON: TileJSONFields {
     public var tileJSONVersion: String { tileJSON.tileJSONVersion }
     public var tiles: [String] { tileJSON.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
@@ -55,7 +55,7 @@ extension CustomFieldsTileJSON: TileJSONFields {
 
 // MARK: - Codable
 
-extension CustomFieldsTileJSON: Codable {
+extension ExtendedTileJSON: Codable {
     public init(from decoder: Decoder) throws {
         tileJSON = try .init(from: decoder)
         
