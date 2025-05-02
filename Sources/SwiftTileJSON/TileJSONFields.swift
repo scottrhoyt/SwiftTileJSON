@@ -24,7 +24,6 @@ public protocol TileJSONFields {
     var attribution: String? { get }
     
     /// OPTIONAL. The maximum extent of available map tiles in the format [left, bottom, right, top].
-    /// Default: [-180, -85.05112877980659, 180, 85.0511287798066]
     var bounds: TileJSON.Bounds? { get }
     
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
@@ -66,24 +65,31 @@ public protocol TileJSONFields {
     // MARK: Effective Fields
     
     /// The effective bounds with default applied if not specified.
+    /// Default: [-180, -85.05112877980659, 180, 85.0511287798066]
     var effectiveBounds: TileJSON.Bounds { get }
     
     /// The effective maximum zoom level with default applied if not specified.
+    /// Default: 30
     var effectiveMaxZoom: Int { get }
     
     /// The effective minimum zoom level with default applied if not specified.
+    /// Default: 0
     var effectiveMinZoom: Int { get }
     
     /// The effective tile schema with default applied if not specified.
+    /// Default: `xyz`
     var effectiveScheme: TileJSON.TileScheme { get }
     
     /// The effective version with default applied if not specified.
+    /// Default: "1.0.0"
     var effectiveVersion: Version { get }
     
     /// The effective data array with default applied if not specified.
+    /// Default: `[]`
     var effectiveData: [String] { get }
     
     /// The effective grids array with default applied if not specified.
+    /// Default: `[]`
     var effectiveGrids: [String] { get }
 }
 
