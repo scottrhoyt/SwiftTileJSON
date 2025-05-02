@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import Version
 
 /// A Swift model for [TileJSON 3.0.0 specification](https://github.com/mapbox/tilejson-spec/blob/master/3.0.0/example/osm.json).
 ///
 /// TileJSON is a format used to represent metadata about multiple types of web-based map layers.
 public struct TileJSON: TileJSONFields, Equatable, Hashable {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
-    public let tileJSONVersion: String
+    public let tileJSONVersion: Version
     
     /// REQUIRED. An array of tile endpoints. Must contain at least one endpoint.
     public let tiles: [String]
@@ -62,10 +63,10 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
     public let template: String?
     
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
-    public let version: String?
+    public let version: Version?
     
     public init(
-        tileJSONVersion: String = "3.0.0",
+        tileJSONVersion: Version = Version(3, 0, 0),
         tiles: [String],
         vectorLayers: [VectorLayer]? = nil,
         attribution: String? = nil,
@@ -81,7 +82,7 @@ public struct TileJSON: TileJSONFields, Equatable, Hashable {
         name: String? = nil,
         scheme: TileScheme? = nil,
         template: String? = nil,
-        version: String? = nil
+        version: Version? = nil
     ) {
         self.tileJSONVersion = tileJSONVersion
         self.tiles = tiles
@@ -131,7 +132,7 @@ extension TileJSON: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         // Decode REQUIRED fields.
-        tileJSONVersion = try container.decode(String.self, forKey: .tileJSONVersion)
+        tileJSONVersion = try container.decode(Version.self, forKey: .tileJSONVersion)
         tiles = try container.decode([String].self, forKey: .tiles)
         
         // Validate compatible TileJSON version
@@ -166,7 +167,7 @@ extension TileJSON: Codable {
         name = try? container.decodeIfPresent(String.self, forKey: .name)
         scheme = try? container.decodeIfPresent(TileScheme.self, forKey: .scheme)
         template = try? container.decodeIfPresent(String.self, forKey: .template)
-        version = try? container.decodeIfPresent(String.self, forKey: .version)
+        version = try? container.decodeIfPresent(Version.self, forKey: .version)
         
         // Decode OPTIONAL zoom levels. `nil` if invalid.
         (minZoom, maxZoom) = Valid.zoomLevels(

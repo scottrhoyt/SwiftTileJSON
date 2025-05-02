@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Version
 
 extension TileJSON {
     /// Validation for TileJSON fields
@@ -15,18 +16,8 @@ extension TileJSON {
         static let longitudeRange: ClosedRange<Double> = -180...180
         
         /// Validates major version 3.
-        static func tileJSONVersion(_ tileJSONVersion: String) -> Bool {
-            let versionParts = tileJSONVersion.split(separator: ".")
-            
-            if versionParts.count < 1 {
-                return false
-            }
-            
-            if let majorVersion = Int(versionParts[0]), majorVersion == 3 {
-                return true
-            }
-            
-            return false
+        static func tileJSONVersion(_ tileJSONVersion: Version) -> Bool {
+            return tileJSONVersion.major == 3
         }
         
         /// Validates that zoom levels are between 0...30 and maxZoom >= minzoom.

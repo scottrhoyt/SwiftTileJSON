@@ -8,6 +8,7 @@
 import Foundation
 import Testing
 @testable import SwiftTileJSON
+import Version
 
 struct ValidationTests {
     @Test func noTilesJSONThrows() {
@@ -81,8 +82,7 @@ struct ValidationTests {
             "03",
             "3.0",
             "03.0",
-            "3.0.0.",
-            "3.0.0a",
+            "3.0.0-a",
             "3.0.0-experimental"
         ]
     )
@@ -93,9 +93,11 @@ struct ValidationTests {
         ]
 
         let jsonData = try! JSONSerialization.data(withJSONObject: validTileJSON)
-        let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: jsonData)
+        let decoder = JSONDecoder()
+        decoder.userInfo[.decodingMethod] = DecodingMethod.tolerant
+        let tileJSON = try! decoder.decode(TileJSON.self, from: jsonData)
         
-        #expect(tileJSON.tileJSONVersion == versionString)
+        #expect(tileJSON.tileJSONVersion == Version(tolerant: versionString)!)
     }
     
     @Test(
@@ -118,11 +120,15 @@ struct ValidationTests {
 
         let jsonData = try! JSONSerialization.data(withJSONObject: invalidTileJSON)
         #expect(performing: {
-            _ = try JSONDecoder().decode(TileJSON.self, from: jsonData)
+            let decoder = JSONDecoder()
+            decoder.userInfo[.decodingMethod] = DecodingMethod.tolerant
+            _ = try decoder.decode(TileJSON.self, from: jsonData)
         }, throws: { error in
             switch error as? DecodingError {
             case .typeMismatch(_, let context):
                 return context.debugDescription == "Only TileJSON v3.x.x is supported"
+            case .dataCorrupted(let context):
+                return context.debugDescription == "Invalid semantic version"
             default:
                 return false
             }

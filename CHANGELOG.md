@@ -2,6 +2,7 @@
 
 ## `main`
 * Make `extendedFields` default to empty instead of `nil`.
+* Use `Version` type to represent SemVers instead of Strings.
 
 ## 0.2.0
 * Fix `TileJSON` init parameters

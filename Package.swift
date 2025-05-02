@@ -11,11 +11,18 @@ let package = Package(
             name: "SwiftTileJSON",
             targets: ["SwiftTileJSON"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/mxcl/Version.git", from: "2.1.0")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "SwiftTileJSON"),
+            name: "SwiftTileJSON",
+            dependencies: [
+                .product(name: "Version", package: "Version")
+            ]
+        ),
         .testTarget(
             name: "SwiftTileJSONTests",
             dependencies: ["SwiftTileJSON"],

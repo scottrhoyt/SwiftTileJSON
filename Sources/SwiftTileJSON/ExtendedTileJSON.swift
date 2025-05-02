@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Version
 
 /// A wrapper for handling custom fields in the TileJSON spec.
 ///
@@ -34,7 +35,7 @@ public struct ExtendedTileJSON {
 // MARK: - TileJSONFields
 
 extension ExtendedTileJSON: TileJSONFields {
-    public var tileJSONVersion: String { tileJSON.tileJSONVersion }
+    public var tileJSONVersion: Version { tileJSON.tileJSONVersion }
     public var tiles: [String] { tileJSON.tiles }
     public var vectorLayers: [TileJSON.VectorLayer]? { tileJSON.vectorLayers }
     public var attribution: String? { tileJSON.attribution }
@@ -50,7 +51,7 @@ extension ExtendedTileJSON: TileJSONFields {
     public var name: String? { tileJSON.name }
     public var scheme: TileJSON.TileScheme? { tileJSON.scheme }
     public var template: String? { tileJSON.template }
-    public var version: String? { tileJSON.version }
+    public var version: Version? { tileJSON.version }
 }
 
 // MARK: - Codable

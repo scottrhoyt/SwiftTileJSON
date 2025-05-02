@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import Version
 
 /// A protocol representing the required and optional fields of the TileJSON 3.0 spec.
 public protocol TileJSONFields {
     /// REQUIRED. The version of the TileJSON spec that is implemented by this JSON object. `tilejson` in the spec.
-    var tileJSONVersion: String { get }
+    var tileJSONVersion: Version { get }
     
     /// REQUIRED. An array of tile endpoints. Must contain at least one endpoint.
     var tiles: [String] { get }
@@ -60,7 +61,7 @@ public protocol TileJSONFields {
     var template: String? { get }
     
     /// OPTIONAL. A semver.org version number of the tileset. Default: "1.0.0"
-    var version: String? { get }
+    var version: Version? { get }
     
     // MARK: Effective Fields
     
@@ -77,7 +78,7 @@ public protocol TileJSONFields {
     var effectiveScheme: TileJSON.TileScheme { get }
     
     /// The effective version with default applied if not specified.
-    var effectiveVersion: String { get }
+    var effectiveVersion: Version { get }
     
     /// The effective data array with default applied if not specified.
     var effectiveData: [String] { get }
@@ -93,7 +94,7 @@ extension TileJSONFields {
     public var effectiveMaxZoom: Int { maxZoom ?? TileJSON.Defaults.maxZoom }
     public var effectiveMinZoom: Int { minZoom ?? TileJSON.Defaults.minZoom }
     public var effectiveScheme: TileJSON.TileScheme { scheme ?? TileJSON.Defaults.scheme }
-    public var effectiveVersion: String { version ?? TileJSON.Defaults.version }
+    public var effectiveVersion: Version { version ?? TileJSON.Defaults.version }
     public var effectiveData: [String] { data ?? TileJSON.Defaults.data }
     public var effectiveGrids: [String] { grids ?? TileJSON.Defaults.grids }
 }

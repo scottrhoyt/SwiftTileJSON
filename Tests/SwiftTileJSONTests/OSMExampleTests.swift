@@ -8,6 +8,7 @@
 import Foundation
 import Testing
 @testable import SwiftTileJSON
+import Version
 
 struct OSMExampleTests {
     @Test func osmExampleDecodes() {
@@ -25,10 +26,10 @@ struct OSMExampleTests {
     @Test func osmExampleDecodesFieldsCorrectly() {
         let tileJSON = try! JSONDecoder().decode(TileJSON.self, from: TestData.fromFile("osm")!)
         
-        #expect(tileJSON.tileJSONVersion == "3.0.0")
+        #expect(tileJSON.tileJSONVersion == Version(3, 0, 0))
         #expect(tileJSON.name == "OpenStreetMap")
         #expect(tileJSON.description == "A free editable map of the whole world.")
-        #expect(tileJSON.version == "1.0.0")
+        #expect(tileJSON.version == Version(1, 0, 0))
         #expect(tileJSON.attribution == "(c) OpenStreetMap contributors, CC-BY-SA")
         #expect(tileJSON.scheme == .xyz)
         #expect(tileJSON.tiles == [

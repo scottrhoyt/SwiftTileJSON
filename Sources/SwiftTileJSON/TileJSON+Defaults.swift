@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Version
 
 extension TileJSON {
     struct Defaults {
@@ -18,7 +19,7 @@ extension TileJSON {
         static let maxZoom = 30
         static let minZoom = 0
         static let scheme = TileJSON.TileScheme.xyz
-        static let version = "1.0.0"
+        static let version = Version(1, 0, 0)
         static let data = [String]()
         static let grids = [String]()
     }
