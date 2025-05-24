@@ -1,6 +1,7 @@
 # Change Log
 
 ## `main`
+* Update doc comments.
 
 ## 0.4.1
 * Improve `TileJSON.extendedFields` encoding errors.

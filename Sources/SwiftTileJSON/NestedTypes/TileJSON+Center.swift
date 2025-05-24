@@ -19,16 +19,16 @@ public extension TileJSON {
         /// The zoom level (0...30)
         public var zoom: Int
         
-        /// Initialize a new `Center` object
+        /// Initialize a new ``Center`` object
         public init(longitude: Double, latitude: Double, zoom: Int) {
             self.longitude = longitude
             self.latitude = latitude
             self.zoom = zoom
         }
         
-        /// Decode a `Center` object from a 3-element array.
+        /// Decode a ``Center`` object from a 3-element array.
         ///
-        /// - Throws: A `DecodingError` when the array is not exactly 3 elements or they are out of
+        /// - Throws: A ``DecodingError`` when the array is not exactly 3 elements or they are out of
         ///   valid bounds.
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
@@ -74,7 +74,7 @@ public extension TileJSON {
             }
         }
         
-        /// Encodes a `Center` object to a 3-element array.
+        /// Encodes a ``Center`` object to a 3-element array.
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.unkeyedContainer()
             try container.encode(longitude)

@@ -8,6 +8,7 @@
 import Foundation
 import Version
 
+/// Internal container for the tilejson 3.0 defaults
 extension TileJSON {
     struct Defaults {
         static let bounds = Bounds(

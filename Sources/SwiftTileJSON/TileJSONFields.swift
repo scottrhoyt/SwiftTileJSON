@@ -29,7 +29,7 @@ public protocol TileJSONFields {
     /// OPTIONAL. The default center position of the map in the format [longitude, latitude, zoom].
     var center: TileJSON.Center? { get }
     
-    /// OPTIONAL. An array of GeoJSON data files. Default: []
+    /// OPTIONAL. An array of GeoJSON data. Default: []
     var data: [String]? { get }
     
     /// OPTIONAL. A text description of the tileset.

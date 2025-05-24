@@ -19,7 +19,7 @@ public struct TileJSON: Sendable {
     /// Additional fields not handled by the TileJSON spec
     public let extendedFields: [String: ExtendedField]
     
-    /// Create a new `TileJSON` object
+    /// Create a new ``TileJSON`` object
     /// - Parameters:
     ///   - base: The base TileJSON fields
     ///   - extendedFields: A dictionary of custom fields for encoding/decoding. Empty by default.

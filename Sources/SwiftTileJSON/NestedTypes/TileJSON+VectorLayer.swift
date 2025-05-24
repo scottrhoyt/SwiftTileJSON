@@ -26,7 +26,7 @@ public extension TileJSON {
         /// OPTIONAL. The highest zoom level whose tiles this layer appears in. `minzoom` in the spec.
         public internal(set) var maxZoom: Int?
         
-        /// Initialize a new `VectorLayer`
+        /// Initialize a new ``VectorLayer``
         /// - Parameters:
         ///   - id: The layer id
         ///   - fields: The fields available in the layer and their descriptions
@@ -53,9 +53,9 @@ public extension TileJSON {
         
         // MARK: Custom Decoding
         
-        /// Decodes a `VectorLayer` from a dictionary representation.
+        /// Decodes a ``VectorLayer`` from a dictionary representation.
         ///
-        /// - Throws: A `DecodingError` if the required `id` and `fields` properties are not present.
+        /// - Throws: A ``DecodingError`` if the required `id` and `fields` properties are not present.
         public init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             

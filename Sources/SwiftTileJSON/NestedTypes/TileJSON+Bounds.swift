@@ -22,7 +22,7 @@ public extension TileJSON {
         /// The maximum latitude (top side) of the bounds in degrees (-90...90)
         public let maxLatitude: Double
         
-        /// Initialize a new `Bounds` object
+        /// Initialize a new ``Bounds`` object
         public init(minLongitude: Double, minLatitude: Double, maxLongitude: Double, maxLatitude: Double) {
             self.minLongitude = minLongitude
             self.minLatitude = minLatitude
@@ -30,9 +30,9 @@ public extension TileJSON {
             self.maxLatitude = maxLatitude
         }
         
-        /// Decode a `Bounds` object from a 4-element array.
+        /// Decode a ``Bounds`` object from a 4-element array.
         ///
-        /// - Throws: `DecodingError` if the array does not have exactly 4 elements or the elements are outside of valid ranges.
+        /// - Throws: ``DecodingError`` if the array does not have exactly 4 elements or the elements are outside of valid ranges.
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             
