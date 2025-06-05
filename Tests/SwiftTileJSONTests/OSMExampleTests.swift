@@ -39,7 +39,7 @@ struct OSMExampleTests {
         ])
         #expect(tileJSON.minZoom == 0)
         #expect(tileJSON.maxZoom == 18)
-        #expect(tileJSON.bounds == TileJSON.Bounds(minLongitude: -180, minLatitude: -85, maxLongitude: 180, maxLatitude: 85))
+        #expect(tileJSON.bounds == TileJSON.Bounds(west: -180, south: -85, east: 180, north: 85))
         #expect(tileJSON.fillZoom == 6)
         #expect(tileJSON.vectorLayers == [
             TileJSON.VectorLayer(

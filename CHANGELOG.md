@@ -2,6 +2,7 @@
 
 ## `main`
 * Update doc comments.
+* Rename `TileJSON.Bounds` properties to `west`, `south`, `east`, `north`
 
 ## 0.4.1
 * Improve `TileJSON.extendedFields` encoding errors.

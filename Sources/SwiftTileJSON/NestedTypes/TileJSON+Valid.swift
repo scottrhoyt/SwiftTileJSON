@@ -52,8 +52,8 @@ extension TileJSON {
             
             if
                 let bounds = bounds,
-                (bounds.minLongitude...bounds.maxLongitude).contains(center.longitude) == false ||
-                (bounds.minLatitude...bounds.maxLatitude).self.contains(center.latitude) == false
+                (bounds.west...bounds.east).contains(center.longitude) == false ||
+                (bounds.south...bounds.north).self.contains(center.latitude) == false
             {
                 return nil
             }

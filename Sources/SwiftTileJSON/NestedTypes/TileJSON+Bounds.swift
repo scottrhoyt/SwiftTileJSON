@@ -9,25 +9,26 @@ import Foundation
 
 public extension TileJSON {
     /// Structured representation of TileJSON `bounds`
+    /// - Note: According to the TileJSON spec, bounds cannot wrap the antimeridian.
     struct Bounds: Equatable, Hashable, Codable, Sendable {
         /// The minimum longitude (left side) of the bounds in degrees (-180...180)
-        public let minLongitude: Double
+        public let west: Double
         
         /// The minimum latitude (bottom side) of the bounds in degrees (-90...90)
-        public let minLatitude: Double
+        public let south: Double
         
         /// The minimum longitude (right side) of the bounds in degrees (-180...180)
-        public let maxLongitude: Double
+        public let east: Double
         
         /// The maximum latitude (top side) of the bounds in degrees (-90...90)
-        public let maxLatitude: Double
+        public let north: Double
         
         /// Initialize a new ``Bounds`` object
-        public init(minLongitude: Double, minLatitude: Double, maxLongitude: Double, maxLatitude: Double) {
-            self.minLongitude = minLongitude
-            self.minLatitude = minLatitude
-            self.maxLongitude = maxLongitude
-            self.maxLatitude = maxLatitude
+        public init(west: Double, south: Double, east: Double, north: Double) {
+            self.west = west
+            self.south = south
+            self.east = east
+            self.north = north
         }
         
         /// Decode a ``Bounds`` object from a 4-element array.
@@ -36,10 +37,10 @@ public extension TileJSON {
         public init(from decoder: any Decoder) throws {
             var container = try decoder.unkeyedContainer()
             
-            minLongitude = try container.decode(Double.self)
-            minLatitude = try container.decode(Double.self)
-            maxLongitude = try container.decode(Double.self)
-            maxLatitude = try container.decode(Double.self)
+            west = try container.decode(Double.self)
+            south = try container.decode(Double.self)
+            east = try container.decode(Double.self)
+            north = try container.decode(Double.self)
             
             if container.isAtEnd == false {
                 throw DecodingError.dataCorrupted(
@@ -50,38 +51,38 @@ public extension TileJSON {
                 )
             }
             
-            if Valid.longitudeRange.contains(minLongitude) == false {
+            if Valid.longitudeRange.contains(west) == false {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
-                        debugDescription: "Invalid minLongitude value: \(minLongitude)"
+                        debugDescription: "Invalid minLongitude value: \(west)"
                     )
                 )
             }
             
-            if Valid.latitudeRange.contains(minLatitude) == false {
+            if Valid.latitudeRange.contains(south) == false {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
-                        debugDescription: "Invalid minLatitude value: \(minLatitude)"
+                        debugDescription: "Invalid minLatitude value: \(south)"
                     )
                 )
             }
             
-            if Valid.longitudeRange.contains(maxLongitude) == false {
+            if Valid.longitudeRange.contains(east) == false {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
-                        debugDescription: "Invalid maxLongitude value: \(maxLongitude)"
+                        debugDescription: "Invalid maxLongitude value: \(east)"
                     )
                 )
             }
             
-            if Valid.latitudeRange.contains(maxLatitude) == false {
+            if Valid.latitudeRange.contains(north) == false {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: decoder.codingPath,
-                        debugDescription: "Invalid maxLatitude value: \(maxLatitude)"
+                        debugDescription: "Invalid maxLatitude value: \(north)"
                     )
                 )
             }
@@ -90,10 +91,10 @@ public extension TileJSON {
         /// Encodes a `Bounds` object to a 4-element array
         public func encode(to encoder: any Encoder) throws {
             var container = encoder.unkeyedContainer()
-            try container.encode(minLongitude)
-            try container.encode(minLatitude)
-            try container.encode(maxLongitude)
-            try container.encode(maxLatitude)
+            try container.encode(west)
+            try container.encode(south)
+            try container.encode(east)
+            try container.encode(north)
         }
     }
 }

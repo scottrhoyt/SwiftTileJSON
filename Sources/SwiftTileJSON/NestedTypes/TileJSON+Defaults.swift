@@ -12,10 +12,10 @@ import Version
 extension TileJSON {
     struct Defaults {
         static let bounds = Bounds(
-            minLongitude: -180,
-            minLatitude: -85.05112877980659,
-            maxLongitude: 180,
-            maxLatitude: 85.0511287798066
+            west: -180,
+            south: -85.05112877980659,
+            east: 180,
+            north: 85.0511287798066
         )
         static let maxZoom = 30
         static let minZoom = 0
